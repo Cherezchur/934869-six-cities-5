@@ -14,9 +14,6 @@
       "Стильный лофт на мансарде с видом на реку",
       "Студия с дизайнерским ремонтом. НА лоджие есть небольшой сад"
     ],
-    "citys": [
-      "Paris", "Cologne" , "Brussels" , "Amsterdam" , "Hamburg" , "Dusseldorf"
-    ],
     "previewImages": [
       "apartmants.jpg", "studio.jpg", "flat.jpg", "loft.jpg", "studio-2.jpg"
     ],
@@ -27,8 +24,6 @@
       ["loft-1.jpg","loft-2.jpg","loft-3.jpg","loft-4.jpg","loft-5.jpg","loft-6.jpg"],
       ["studio2-1.jpg","studio2-2.jpg","studio2-3.jpg","studio2-4.jpg","studio2-5.jpg","studio2-6.jpg"]
     ],
-    "housingTypes": ["apartment", "house", "room", "hotel"],
-    "comforts": ["Breakfast"," Air conditioning", "Laptop friendly workspace", "Baby seat", "Washer", "Towels", "Fridge"],
     "users": [
       "Поль Гаген",
       "Эрик Обомиянг",
