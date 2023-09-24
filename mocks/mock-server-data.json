@@ -1,0 +1,58 @@
+{
+  "api": {
+    "titles": [
+      "Апартаменты на набережной",
+      "Уютная студия",
+      "Просторная квартира",
+      "Лофт на мансарде",
+      "Студия с лоджией"
+    ],
+    "descriptions": [
+      "Аппартаменты в старом деревянном доме на берегу живописной набережной",
+      "Студия на окраине делового района",
+      "Квартира с высокими потолками и большими компантами",
+      "Стильный лофт на мансарде с видом на реку",
+      "Студия с дизайнерским ремонтом. НА лоджие есть небольшой сад"
+    ],
+    "citys": [
+      "Paris", "Cologne" , "Brussels" , "Amsterdam" , "Hamburg" , "Dusseldorf"
+    ],
+    "previewImages": [
+      "apartmants.jpg", "studio.jpg", "flat.jpg", "loft.jpg", "studio-2.jpg"
+    ],
+    "images": [
+      ["apartmants-1.jpg","apartmants-2.jpg","apartmants-3.jpg","apartmants-4.jpg","apartmants-5.jpg","apartmants-6.jpg"],
+      ["studio-1.jpg","studio-2.jpg","studio-3.jpg","studio-4.jpg","studio-5.jpg","studio-6.jpg"],
+      ["flat-1.jpg","flat-2.jpg","flat-3.jpg","flat-4.jpg","flat-5.jpg","flat-6.jpg"],
+      ["loft-1.jpg","loft-2.jpg","loft-3.jpg","loft-4.jpg","loft-5.jpg","loft-6.jpg"],
+      ["studio2-1.jpg","studio2-2.jpg","studio2-3.jpg","studio2-4.jpg","studio2-5.jpg","studio2-6.jpg"]
+    ],
+    "housingTypes": ["apartment", "house", "room", "hotel"],
+    "comforts": ["Breakfast"," Air conditioning", "Laptop friendly workspace", "Baby seat", "Washer", "Towels", "Fridge"],
+    "users": [
+      "Поль Гаген",
+      "Эрик Обомиянг",
+      "Пьер Безухов",
+      "Роланд Дискейн",
+      "Майк Тайсон"
+    ],
+    "emails": [
+      "polGG@pisem.local",
+      "president@dka.local",
+      "fish@big.local",
+      "test@pisem.local",
+      "tayson-hook@pisem.local"
+    ],
+    "avatars": [
+      "user.jpg",
+      "photo.jpg",
+      "awesome-avatar.jpg",
+      "roland.jpg",
+      "smite.jpg",
+      "coffee.jpg"
+    ],
+    "coordinates": [
+      "48.85661,2.351499", "50.938361,6.959974", "50.846557,4.351697", "52.370216,4.895168", "53.550341,10.000654"
+    ]
+  }
+}
