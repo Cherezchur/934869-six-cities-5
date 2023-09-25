@@ -1,7 +1,7 @@
 
 import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
-import { MockServerData, HousingType, City, Comfort } from '../../types/index.js';
+import { MockServerData, HousingType, City, Comfort, UserType } from '../../types/index.js';
 import { generateRandomValue, getRandomItem, getRandomItems } from '../../helpers/index.js';
 
 const MIN_RATING = 0;
@@ -44,10 +44,10 @@ export class TSVOfferGenerator implements OfferGenerator {
     const guests = generateRandomValue(MIN_GOESTS, MAX_GOESTS);
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE).toString();
     const comfort = getRandomItems([Comfort['Air conditioning'], Comfort['Baby seat'], Comfort.Breakfast, Comfort.Fridge, Comfort['Laptop friendly workspace'], Comfort.Towels, Comfort.Washer]);
-    const author = getRandomItem(this.mockData.users);
-    const [firstname, lastname] = author.split(' ');
+    const name = getRandomItem(this.mockData.users);
     const email = getRandomItem(this.mockData.emails);
     const avatar = getRandomItem(this.mockData.avatars);
+    const userType = getRandomItem([UserType.Pro, UserType.User]);
     const commentsNumber = generateRandomValue(MIN_COMMENTS, MAX_COMMENTS);
     const coordinates = getRandomItem(this.mockData.coordinates);
 
@@ -55,8 +55,8 @@ export class TSVOfferGenerator implements OfferGenerator {
       title, description, createdDate, city,
       preview, photos, isPremium, isFavorites,
       rating, typeHousing, rooms, guests, price,
-      comfort, firstname, lastname, email,
-      avatar, commentsNumber, coordinates
+      comfort, name, email,
+      avatar, userType, commentsNumber, coordinates
     ].join('\t');
   }
 }
