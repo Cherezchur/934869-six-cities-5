@@ -6,4 +6,5 @@ export * from './user.type.js';
 export * from './userType.enum.js';
 export * from './mock-server-data.type.js';
 export * from './comfort.enum.js';
+export * from './coordinates.enum.js';
 
