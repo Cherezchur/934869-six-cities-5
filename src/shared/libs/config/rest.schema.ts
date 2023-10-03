@@ -20,7 +20,7 @@ export const configRestSchema = convict<RestSchema>({
     doc: 'Salt for password hash',
     format: String,
     env: 'SALT',
-    default: null
+    default: 'null' // проблема: тип null не подходит, выводит ошибку
   },
   DB_HOST: {
     doc: 'IP address of the database server (MongoDB)',
