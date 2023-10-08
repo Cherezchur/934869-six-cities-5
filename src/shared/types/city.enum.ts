@@ -1,4 +1,4 @@
-export enum City {
+export enum CityEnum {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',
