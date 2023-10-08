@@ -4,6 +4,7 @@ import { Config, RestSchema } from '../shared/libs/config/index.js';
 import { Component } from '../shared/types/components.enum.js';
 import { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
 import { getMongoURI } from '../shared/helpers/database.js';
+import { UserModel } from '../shared/modules/user/user.model.js';
 
 @injectable()
 export class RestApplication {
@@ -31,6 +32,23 @@ export class RestApplication {
 
     this.logger.info('Init database...');
     await this._initDb();
+
+    const user = await UserModel.create({
+      email: 'test@email.local',
+      avatarPath: 'keks.jpg',
+      name: 'Keks',
+      userType: 'Pro'
+    });
+
+    const user2 = await UserModel.create({
+      email: 'test@email.local',
+      avatarPath: 'keks.jpg2',
+      name: 'Keks2',
+      userType: 'Pro'
+    });
+
+    console.log(user, user2);
+
     this.logger.info('Init database complited');
   }
 }
