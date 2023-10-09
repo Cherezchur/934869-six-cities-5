@@ -1,6 +1,4 @@
-import { Cities } from './city.enum.js';
-import { HousingType } from './housingType.enum.js';
-import { User } from './user.type.js';
+import { Comfort, Cities, HousingType, User } from './index.js';
 
 export type Offer = {
   title: string;
@@ -16,7 +14,7 @@ export type Offer = {
   rooms: number;
   guestsNumber: number;
   price: number;
-  comfort: string[];
+  comfort: Comfort[];
   user: User;
   comments: number;
   coordinates: string[];

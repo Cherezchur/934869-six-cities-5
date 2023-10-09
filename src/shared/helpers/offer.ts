@@ -1,4 +1,4 @@
-import { HousingType, City, Offer, UserType } from '../types/index.js';
+import { HousingType, Comfort, Cities, Offer, UserType } from '../types/index.js';
 
 export function createOffer(offerData: string): Offer {
   const [
@@ -35,17 +35,17 @@ export function createOffer(offerData: string): Offer {
     title,
     description,
     createdDate: new Date(createdDate),
-    city: City[city as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
+    city: city as Cities,
     previewImage,
     images: images.split(','),
     isPremium: isPremium === 'true',
     isFavourites: isFavorites === 'true',
     rating: Number(rating),
-    housingType: HousingType[housingType as 'apartment' | 'house' | 'room' | 'hotel'],
+    housingType: housingType as HousingType,
     rooms: Number.parseInt(rooms, 10),
     guestsNumber: Number.parseInt(guestsNumber, 10),
     price: Number.parseInt(price, 10),
-    comfort: comfort.split(','),
+    comfort: comfort.split(',').map((key) => Comfort[key as keyof typeof Comfort]),
     user,
     comments: Number.parseInt(comments, 10),
     coordinates: coordinates.split(',')
