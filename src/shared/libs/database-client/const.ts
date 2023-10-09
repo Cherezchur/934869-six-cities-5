@@ -1,2 +1,4 @@
-export const RETRY_COUNT = 5;
-export const RETRY_TIMEOUT = 1000;
+export enum RETRY {
+  'COUNT' = 5,
+  'TIMEOUT' = 1000
+}

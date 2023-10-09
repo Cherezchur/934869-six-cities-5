@@ -1,6 +1,6 @@
 import { Container } from 'inversify';
 import { types } from '@typegoose/typegoose';
-import { UserService } from './user-servise.interface.js';
+import { UserService } from './user-service.interface.js';
 import { Component } from '../../types/components.enum.js';
 import { DefaultUserService } from './default-user.service.js';
 import { UserEntity, UserModel } from './user.entity.js';
