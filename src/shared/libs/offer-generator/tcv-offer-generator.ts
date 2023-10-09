@@ -1,8 +1,8 @@
 
 import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
-import { MockServerData, HousingType, CityEnum, Comfort, UserType, Coordinates } from '../../types/index.js';
-import { generateRandomValue, getRandomItem, getRandomItems } from '../../helpers/index.js';
+import { MockServerData, HousingType, Cities, Comfort, UserType } from '../../types/index.js';
+import { generateRandomValue, getRandomItem, getRandomItems, CITIES_X_COORDINATES } from '../../helpers/index.js';
 import { OfferRating, Rooms, Guests, Price, Comments, WeekDay } from './const.js';
 
 export class TSVOfferGenerator implements OfferGenerator {
@@ -16,7 +16,7 @@ export class TSVOfferGenerator implements OfferGenerator {
       .subtract(generateRandomValue(WeekDay.MIN, WeekDay.MAX), 'day')
       .toISOString();
 
-    const city = getRandomItem([CityEnum.Amsterdam, CityEnum.Brussels, CityEnum.Cologne, CityEnum.Dusseldorf, CityEnum.Hamburg, CityEnum.Paris]);
+    const city = getRandomItem([Cities.Amsterdam, Cities.Brussels, Cities.Cologne, Cities.Dusseldorf, Cities.Hamburg, Cities.Paris]);
     const preview = getRandomItem<string>(this.mockData.previewImages);
     const photos = getRandomItem<string[]>(this.mockData.images);
     const isPremium = getRandomItem<boolean>([true, false]);
@@ -32,7 +32,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const avatar = getRandomItem(this.mockData.avatars);
     const userType = getRandomItem([UserType.Pro, UserType.User]);
     const commentsNumber = generateRandomValue(Comments.MIN, Comments.MAX);
-    const coordinates = Coordinates[city];
+    const coordinates = CITIES_X_COORDINATES[city];
 
     return [
       title, description, createdDate, city,
