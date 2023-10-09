@@ -16,16 +16,12 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({
     required: true,
     default: '',
-    minLenght: [1, 'Min length for name is 1'],
-    maxLenght: [15, 'Max length for name is 15']
   })
   public name: string;
 
   @prop({
     required: true,
     unique: true,
-    default: '',
-    match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Email is incorrect'],
   })
   public email: string;
 
@@ -36,7 +32,8 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   public avatarPath: string;
 
   @prop({
-    enum: ['User', 'Pro'],
+    type: () => String,
+    enum: UserType,
     require: true
   })
   public userType: UserType;

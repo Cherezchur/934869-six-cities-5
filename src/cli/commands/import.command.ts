@@ -3,7 +3,6 @@ import { Command } from './command.interface.js';
 import { TSVFileReader } from '../../shared/libs/file-reader/tsv-file-reader.js';
 import { createOffer, getErrorMessage, getMongoURI } from '../../shared/helpers/index.js';
 import { UserService } from '../../shared/modules/user/user-service.interface.js';
-import { CityModel, City, DefaultCityService, CityService } from '../../shared/modules/city/index.js';
 import { DefaultOfferService, OfferModel, OfferService } from '../../shared/modules/offer/index.js';
 import { DatabaseClient, MongoDatabaseClient } from '../../shared/libs/database-client/index.js';
 import { Logger } from '../../shared/libs/logger/index.js';
@@ -14,7 +13,6 @@ import { Offer } from '../../shared/types/index.js';
 
 export class ImportCommand implements Command {
   private userService: UserService;
-  private city: CityService;
   private offerService: OfferService;
   private databaseClient: DatabaseClient;
   private logger: Logger;
@@ -26,14 +24,12 @@ export class ImportCommand implements Command {
 
     this.logger = new ConsoleLogger();
     this.offerService = new DefaultOfferService(this.logger, OfferModel);
-    this.cityService = new DefaultCityService(this.logger, CityModel);
     this.userService = new DefaultUserService(this.logger, UserModel);
     this.databaseClient = new MongoDatabaseClient(this.logger);
   }
 
   private async onImportedLine(line: string, resolve: () => void) {
     const offer = createOffer(line);
-    console.info(offer);
     await this.saveOffer(offer);
     resolve();
   }
@@ -44,28 +40,33 @@ export class ImportCommand implements Command {
   }
 
   private async saveOffer(offer: Offer) {
-    const city: string[] = [];
     const user = await this.userService.findOrCreate({
       ...offer.user,
       password: DEFAULT_USER_PASSWORD
     }, this.salt);
 
-    for (const { name } of offer.city) {
-      const existCity = await this.cityService.findByNameOrCreate(name, { name });
-      categories.push(existCategory.id);
-    }
-
     await this.offerService.create({
-      city,
       userId: user.id,
       title: offer.title,
       description: offer.description,
-      image: offer.image,
-      postDate: offer.postDate,
+      createdDate: offer.createdDate,
+      city: offer.city,
+      previewImage: offer.previewImage,
+      images: offer.images,
+      isPremium: offer.isPremium,
+      isFavourites: offer.isFavourites,
+      rating: offer.rating,
+      housingType: offer.housingType,
+      rooms: offer.rooms,
+      guestsNumber: offer.guestsNumber,
       price: offer.price,
-      type: offer.type,
+      comfort: offer.comfort,
+      coordinates: offer.coordinates
     });
+  }
 
+  public getName(): string {
+    return '--import';
   }
 
   public async execute(filename: string, login: string, password: string, host: string, dbname: string, salt: string): Promise<void> {
