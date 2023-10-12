@@ -1,0 +1,102 @@
+openapi: 3.1.0
+info:
+  title: API сервер для проекта SIX-SITIES 
+  description: |-
+    * Список ресурсов и маршрутов сервера «six-sities».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: "1.0.0"
+tags:
+  - name: offers
+    description: Действия с объявлениями
+  - name: commets
+    description: Действия с комментариями
+  - name: users
+    description: Действия с пользователем
+
+paths: 
+
+  /offers/reqister:
+    post:
+      tags:
+        - offers
+      summery: Добавление объявления
+      description: Добавляет новое объявление
+
+  /offers/{offerId}:
+    get:
+        tags:
+          - offers
+        summery: Получение объявление
+        description: Получает детальную информацию по объявлению
+    patch:
+      tags:
+        - offers
+      summery: Редактирование объявления
+      description: Вносит изменени в объявление на основе его id
+    delete:
+      tags:
+        - offers
+      summery: Удаление объявления
+      description: Удаляет объявление по его id
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summery: Получение всех объявлений
+      description: Получает список всех имеющихся объявлений с опредленными полями
+
+  /offers/{city}/premium:
+    get:
+        tags:
+          - offers
+        summery: Получение премиальных объявлений в городе
+        description: Получает список всех премиальных объявлений в определенном городе
+  
+  /offers/{userId}/favourites:
+    post:
+        tags:
+          - offers
+        summery: Добавление объявления в избранное
+        description: Добавит объявление в избранные для авторизированного пользователя
+    get:
+        tags:
+          - offers
+        summery: Получение избранных предложений
+        description: Получает все избранные предложения авторизованного пользователя
+
+  /offers/{userId}/favourites/{offerId}:
+    delete:
+      tags:
+        - offers
+      summery: Удаление объявления из избранного
+      description: Удаляет объявление по его id из избранных авторизованног опользователя
+
+  /comments/{offerId}:
+    get:
+      tags:
+        - comments
+      summery: Получение комментариев
+      description: Получает список все комментарии по определенному предложению
+    
+    post:
+      tags:
+        - comments
+      summery: Добавление комментария
+      description: Добавляет новый комментарий к предложению
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summery: Регистрация пользователя
+      description: Регистрирует нового пользователя
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summery: Авторизация пользователя
+      description: Авторизирует пользователя на основе логина и пароля
