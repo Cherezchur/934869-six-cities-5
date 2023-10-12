@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
   title: API сервер для проекта SIX-SITIES 
   description: |-
@@ -10,7 +10,7 @@ info:
 tags:
   - name: offers
     description: Действия с объявлениями
-  - name: commets
+  - name: comments
     description: Действия с комментариями
   - name: users
     description: Действия с пользователем
@@ -21,24 +21,56 @@ paths:
     post:
       tags:
         - offers
-      summery: Добавление объявления
+      summary: Добавление объявления
       description: Добавляет новое объявление
+
+      requestBody:
+        description: Информация для создания нового объявления
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+        required: true
+
+      responses:
+        "201": 
+          description: Объявление добавлено. Объект пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        "405":
+          description: Данные не прошли валидацию
 
   /offers/{offerId}:
     get:
         tags:
           - offers
-        summery: Получение объявление
+        summary: Получение объявление
         description: Получает детальную информацию по объявлению
+
+        responses:
+          "201": 
+            description: Объявление добавлено. Объект пользователя
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/offer'
+
+          "405":
+            description: Данные не прошли валидацию
+
     patch:
       tags:
         - offers
-      summery: Редактирование объявления
+      summary: Редактирование объявления
       description: Вносит изменени в объявление на основе его id
     delete:
       tags:
         - offers
-      summery: Удаление объявления
+      summary: Удаление объявления
       description: Удаляет объявление по его id
 
   /offers:
@@ -91,12 +123,234 @@ paths:
     post:
       tags:
         - users
-      summery: Регистрация пользователя
+      summary: Регистрация пользователя
       description: Регистрирует нового пользователя
+
+      requestBody:
+        description: Информация для создания нового пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        "201": 
+          description: Пользователь зарегистрирован. Объект пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "409":
+          description: Пользователь с таким email уже существует
 
   /users/login:
     post:
       tags:
         - users
-      summery: Авторизация пользователя
+      summary: Аутентификации и авторизации пользователя
       description: Авторизирует пользователя на основе логина и пароля
+
+      requestBody:
+        description: Информация для создания нового пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/usersLogin'
+        required: true
+
+      responses:
+        "201": 
+          description: Пользователь авторизирован
+          content:
+            application/json:
+              schema:
+                type: object
+
+                properties:
+                  token:
+                    type: string
+                    example: '###################'
+
+        "409":
+          description: Логин или пароль неверные или пользователь не существует
+
+    get:
+      tags:
+        - users
+
+      summary: Получение информации об авторизации пользователя
+      description: Получит данные пользователя на основе токена
+
+      requestBody:
+        description: Токен пользователя
+        content:
+          application/json:
+            schema:
+              type: object
+
+              properties:
+                token:
+                  type: string
+                  example: '###################'
+        required: true
+
+      responses:
+        "201": 
+          description: Пользователь авторизирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+
+  
+
+components:
+  schemas:
+    offer:
+      type: object
+
+      properties:
+        title: 
+          type: string
+          example: Заголовок объявления
+
+        description:
+          type: string
+          example: Описание объявления
+
+        createdDate:
+          type: string
+          example: '2023-09-22T16:17:26.404Z'
+
+        city: 
+          type: string
+          example: 'Один из 6 городов'
+
+        previewImage:
+          type: string
+          example: 'studio.jpg'
+
+        images: 
+          type: array
+          example: ['studio.jpg', 'studio-1.jpg']
+
+        isPremium: 
+          type: boolean
+          example: false
+
+        isFavourites: 
+          type: boolean
+          example: false
+
+        rating: 
+          type: number
+          example: 0
+
+        housingType: 
+          type: string
+          example: 'studio'
+
+        rooms: 
+          type: number
+          example: 1
+        
+        guestsNumber: 
+          type: number
+          example: 1
+
+        price: 
+          type: number
+          example: 100
+
+        comfort: 
+          type: array
+          example: ['Fridge', 'Towels']
+
+        userType: 
+          type: string
+          example: User
+
+        comments: 
+          type: number
+          example: 0
+        
+        userId:
+          type: string
+          example: '6524578b3e67fd0291b6996f'
+
+        coordinates:
+          type: object
+          $ref: '#/components/schemas/coordinates'
+
+    coordinates:
+      type: object
+      properties:
+            lat:
+              type: string
+              example: '48.85661'
+            long:
+              type: string
+              example: '2.351499'
+
+    createUser:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: test@mail.ru
+        
+        name:
+          type: string
+          example: John Doe
+
+        avatar: 
+          type: string
+          example: awesome-avatar.jpg
+
+        password:
+          type: string
+          example: 123456
+
+        userType:
+          type: string
+          example: User
+
+    usersLogin:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: test@mail.ru
+
+        password:
+          type: string
+          example: 123456
+
+    user:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: test@mail.ru
+        
+        name:
+          type: string
+          example: John Doe
+
+        avatar: 
+          type: string
+          example: awesome-avatar.jpg
+
+        userType:
+          type: string
+          example: User
+
+        id: 
+          type: string
+          example: 6524578b3e67fd0291b6996f
