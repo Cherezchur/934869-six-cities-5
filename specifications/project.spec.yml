@@ -9,7 +9,7 @@ info:
   version: "1.0.0"
 tags:
   - name: offers
-    description: Действия с объявлениями
+    description: Действия с предложениями
   - name: comments
     description: Действия с комментариями
   - name: users
@@ -21,25 +21,25 @@ paths:
     post:
       tags:
         - offers
-      summary: Добавление объявления
-      description: Добавляет новое объявление
+      summary: Добавление предложения
+      description: Добавляет новое предложение
 
       requestBody:
-        description: Информация для создания нового объявления
+        description: Информация для создания нового предложения
 
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/offer'
+              $ref: '#/components/schemas/fullOffer'
         required: true
 
       responses:
         "201": 
-          description: Объявление добавлено. Объект пользователя
+          description: Предложение добавлено. Объект предложения
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/offer'
+                $ref: '#/components/schemas/fullOffer'
 
         "405":
           description: Данные не прошли валидацию
@@ -48,51 +48,93 @@ paths:
     get:
         tags:
           - offers
-        summary: Получение объявление
-        description: Получает детальную информацию по объявлению
+        summary: Получение предложения
+        description: Получает детальную информацию по предложению
 
         responses:
           "201": 
-            description: Объявление добавлено. Объект пользователя
+            description: Получение объекта предложения
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/offer'
-
-          "405":
-            description: Данные не прошли валидацию
+                  $ref: '#/components/schemas/fullOffer'
 
     patch:
       tags:
         - offers
-      summary: Редактирование объявления
-      description: Вносит изменени в объявление на основе его id
+      summary: Редактирование предложения
+      description: Вносит изменени в предложение на основе его id
+
+      requestBody:
+        description: Информация для обновления предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fullOffer'
+        required: true
+
+      responses:
+        "201":
+          description: Предложение успешно обновлено. Возвращает обновленное предложение
+          content:
+            application/json:
+              schema:
+                type: object
+
+                properties:
+                  schema:
+                    $ref: '#/components/schemas/fullOffer'
+
+        "405":
+          description: Данные не прошли валидацию
+
+        "409":
+          description: Пользователь не является автором объявления
+
     delete:
       tags:
         - offers
-      summary: Удаление объявления
-      description: Удаляет объявление по его id
+      summary: Удаление предложения
+      description: Удаляет предложение по его id
+
+      responses:
+        "201":
+          description: Предложение успешно удалено
+
+        "409":
+          description: Пользователь не является автором объявления
 
   /offers:
     get:
       tags:
         - offers
-      summery: Получение всех объявлений
-      description: Получает список всех имеющихся объявлений с опредленными полями
+      summary: Получение всех предложений
+      description: Получает список всех имеющихся предложений с опредленными полями
+
+      responses:
+          "201": 
+            description: Получение массива объектов предложений (не более 60 штук).
+              Данные отсортированы по дате публикации (по убыванию)
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/previewOffer'
 
   /offers/{city}/premium:
     get:
         tags:
           - offers
-        summery: Получение премиальных объявлений в городе
-        description: Получает список всех премиальных объявлений в определенном городе
+        summery: Получение премиальных предложений в городе
+        description: Получает список всех премиальных предложений в определенном городе
   
   /offers/{userId}/favourites:
     post:
         tags:
           - offers
-        summery: Добавление объявления в избранное
-        description: Добавит объявление в избранные для авторизированного пользователя
+        summery: Добавление предложения в избранное
+        description: Добавит предложение в избранные для авторизированного пользователя
     get:
         tags:
           - offers
@@ -103,21 +145,64 @@ paths:
     delete:
       tags:
         - offers
-      summery: Удаление объявления из избранного
-      description: Удаляет объявление по его id из избранных авторизованног опользователя
+      summery: Удаление предложения из избранного
+      description: Удаляет предложение по его id из избранных авторизованног опользователя
 
   /comments/{offerId}:
     get:
       tags:
         - comments
-      summery: Получение комментариев
+      summary: Получение комментариев
       description: Получает список все комментарии по определенному предложению
+
+      responses:
+        "201": 
+          description: Получение списка кооментариев (50 и меньше последних комментариев).
+            Комментарии отсортированы по дате публикации (по убыванию)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
     
     post:
       tags:
         - comments
-      summery: Добавление комментария
+      summary: Добавление комментария
       description: Добавляет новый комментарий к предложению
+
+      requestBody:
+        description: Информация для создания нового комментария
+        content:
+          application/json:
+            schema:
+              type: object
+
+              properties:
+                text: 
+                  type: string
+                  example: Текст комментария
+
+                rating:
+                  type: number
+                  example: 1
+
+                authorId:
+                  type: string
+                  example: 6524578b3e67fd0291b6996f
+        required: true
+
+      responses:
+        "201": 
+          description: Получение созданного комментария
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+        "405":
+          description: Данные не прошли валидацию  
 
   /users/register:
     post:
@@ -131,7 +216,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createUser'
+              $ref: '#/components/schemas/user'
         required: true
 
       responses:
@@ -141,6 +226,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+                properties:
+                  password:
+                    type: string
+                    example: 123456
 
         "409":
           description: Пользователь с таким email уже существует
@@ -157,7 +246,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/usersLogin'
+              properties:
+                email:
+                  type: string
+                  example: test@mail.ru
+
+                password:
+                  type: string
+                  example: 123456
         required: true
 
       responses:
@@ -183,19 +279,6 @@ paths:
       summary: Получение информации об авторизации пользователя
       description: Получит данные пользователя на основе токена
 
-      requestBody:
-        description: Токен пользователя
-        content:
-          application/json:
-            schema:
-              type: object
-
-              properties:
-                token:
-                  type: string
-                  example: '###################'
-        required: true
-
       responses:
         "201": 
           description: Пользователь авторизирован
@@ -205,21 +288,19 @@ paths:
                 $ref: '#/components/schemas/user'
 
 
-  
-
 components:
   schemas:
-    offer:
+    fullOffer:
       type: object
 
       properties:
         title: 
           type: string
-          example: Заголовок объявления
+          example: Заголовок предложения
 
         description:
           type: string
-          example: Описание объявления
+          example: Описание предложения
 
         createdDate:
           type: string
@@ -285,6 +366,70 @@ components:
           type: object
           $ref: '#/components/schemas/coordinates'
 
+    previewOffer:
+      type: object
+
+      properties:
+        price: 
+          type: number
+          example: 100
+        
+        title: 
+          type: string
+          example: Заголовок предложения
+
+        housingType: 
+          type: string
+          example: 'studio'
+
+        isFavourites: 
+          type: boolean
+          example: false
+
+        createdDate:
+          type: string
+          example: '2023-09-22T16:17:26.404Z'
+
+        city: 
+          type: string
+          example: 'Один из 6 городов'
+
+        previewImage:
+          type: string
+          example: 'studio.jpg'
+
+        isPremium: 
+          type: boolean
+          example: false
+        
+        rating: 
+          type: number
+          example: 0
+
+        comments: 
+          type: number
+          example: 0
+
+    comment:
+      type: object
+
+      properties:
+        text: 
+          type: string
+          example: Текст комментария
+
+        rating:
+          type: number
+          example: 1
+
+        authorId:
+          type: string
+          example: 6524578b3e67fd0291b6996f
+
+        createdDate:
+          type: string
+          example: 2023-09-22T16:17:26.404Z
+
     coordinates:
       type: object
       properties:
@@ -294,42 +439,6 @@ components:
             long:
               type: string
               example: '2.351499'
-
-    createUser:
-      type: object
-
-      properties:
-        email:
-          type: string
-          example: test@mail.ru
-        
-        name:
-          type: string
-          example: John Doe
-
-        avatar: 
-          type: string
-          example: awesome-avatar.jpg
-
-        password:
-          type: string
-          example: 123456
-
-        userType:
-          type: string
-          example: User
-
-    usersLogin:
-      type: object
-
-      properties:
-        email:
-          type: string
-          example: test@mail.ru
-
-        password:
-          type: string
-          example: 123456
 
     user:
       type: object
@@ -343,7 +452,7 @@ components:
           type: string
           example: John Doe
 
-        avatar: 
+        avatar:
           type: string
           example: awesome-avatar.jpg
 
