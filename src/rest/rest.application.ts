@@ -41,7 +41,7 @@ export class RestApplication {
       password: '12345678'
     });
 
-    console.log(user);
+    console.log('user', user);
 
     this.logger.info('Init database complited');
   }
