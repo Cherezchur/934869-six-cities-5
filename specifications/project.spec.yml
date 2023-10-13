@@ -124,29 +124,59 @@ paths:
 
   /offers/{city}/premium:
     get:
-        tags:
-          - offers
-        summery: Получение премиальных предложений в городе
-        description: Получает список всех премиальных предложений в определенном городе
+      tags:
+        - offers
+      summary: Получение премиальных предложений в городе
+      description: Получает список всех премиальных предложений в определенном городе (не более 3).
+        Сортировка по дате публикации
+
+      responses:
+        "201":
+          description: Получит массив премиальных предложений города (не более 3)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/previewOffer'
   
   /offers/{userId}/favourites:
     post:
         tags:
           - offers
-        summery: Добавление предложения в избранное
+        summary: Добавление предложения в избранное
         description: Добавит предложение в избранные для авторизированного пользователя
+
+        responses:
+          "201":
+            description: Добавит предложение в избранные предложения пользователя
     get:
         tags:
           - offers
-        summery: Получение избранных предложений
+        summary: Получение избранных предложений
         description: Получает все избранные предложения авторизованного пользователя
+
+        responses:
+          "201":
+            description: Получит массив избранных предложений пользователя
+
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/previewOffer'
 
   /offers/{userId}/favourites/{offerId}:
     delete:
       tags:
         - offers
-      summery: Удаление предложения из избранного
-      description: Удаляет предложение по его id из избранных авторизованног опользователя
+      summary: Удаление предложения из избранного
+      description: Удаляет предложение по его id из избранных предложений авторизованного пользователя
+
+      responses:
+        "201":
+          description: Предложение успешно удалено из избранного
 
   /comments/{offerId}:
     get:
