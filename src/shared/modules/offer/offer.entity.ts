@@ -26,10 +26,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public createdDate!: Date;
 
-  @prop({
-    ref: String,
-    required: true,
-  })
+  @prop({ref: String, required: true})
   public city!: Cities;
 
   @prop({required: true})
@@ -47,10 +44,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public rating!: number;
 
-  @prop({
-    type: () => String,
-    enum: HousingType
-  })
+  @prop({type: () => String, enum: HousingType})
   public housingType!: HousingType;
 
   @prop({required: true})
@@ -62,16 +56,10 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public price!: number;
 
-  @prop({
-    type: () => String,
-    enum: Comfort
-  })
+  @prop({type: () => String, enum: Comfort})
   public comfort: Comfort[];
 
-  @prop({
-    ref: UserEntity,
-    required: true,
-  })
+  @prop({ref: UserEntity, required: true,})
   public userId: Ref<UserEntity>;
 
   @prop({default: 0, required: true})
