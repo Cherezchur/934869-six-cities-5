@@ -320,6 +320,10 @@ paths:
                   type: number
                   example: 1
 
+                offerId:
+                  type: string
+                  example: 652466b0b9e6a61f32d0967e
+
                 authorId:
                   type: string
                   example: 6524578b3e67fd0291b6996f
@@ -462,8 +466,6 @@ paths:
 
         "403":
           description: Доступ запрещен
-    
-
 
 components:
   schemas:
