@@ -74,6 +74,7 @@ export class ImportCommand implements Command {
     this.salt = salt;
 
     await this.databaseClient.connect(uri);
+
     const fileReader = new TSVFileReader(filename.trim());
 
     fileReader.on('line', this.onImportedLine);

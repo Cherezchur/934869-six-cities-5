@@ -1,5 +1,4 @@
 import got from 'got';
-// import { appendFile } from 'node:fs/promises';
 
 import { Command } from './command.interface.js';
 import { MockServerData } from '../../shared/types/mock-server-data.type.js';
