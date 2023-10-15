@@ -17,12 +17,20 @@ tags:
 
 paths: 
 
-  /offers/reqister:
+  /offers:
     post:
       tags:
         - offers
-      summary: Добавление предложения
-      description: Добавляет новое предложение
+      parameters:
+      - name: userToken
+        in: header
+        required: true
+        description: Токен
+        schema:
+          type: string 
+
+      summary: Создание предложения
+      description: Создает новое предложение
 
       requestBody:
         description: Информация для создания нового предложения
@@ -41,27 +49,58 @@ paths:
               schema:
                 $ref: '#/components/schemas/fullOffer'
 
-        "405":
+        "401":
+          description: пользователь не авторизован
+
+        "400":
           description: Данные не прошли валидацию
 
-  /offers/{offerId}:
     get:
-        tags:
-          - offers
-        summary: Получение предложения
-        description: Получает детальную информацию по предложению
+      tags:
+        - offers
+      summary: Получение всех предложений
+      description: Получает список всех имеющихся предложений с опредленными полями
 
-        responses:
-          "201": 
-            description: Получение объекта предложения
+      responses:
+          "200": 
+            description: Получение массива объектов предложений (не более 60 штук).
+              Данные отсортированы по дате публикации (по убыванию)
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/fullOffer'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/previewOffer'
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Получение предложения
+      description: Получает детальную информацию по предложению
+
+      responses:
+        "200": 
+          description: Получение объекта предложения
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fullOffer'
+
+        "404":
+          description: Предложение не найдено, либо неверный Id
 
     patch:
       tags:
         - offers
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Токен
+          schema:
+            type: string
+
       summary: Редактирование предложения
       description: Вносит изменени в предложение на основе его id
 
@@ -74,7 +113,7 @@ paths:
         required: true
 
       responses:
-        "201":
+        "200":
           description: Предложение успешно обновлено. Возвращает обновленное предложение
           content:
             application/json:
@@ -85,10 +124,16 @@ paths:
                   schema:
                     $ref: '#/components/schemas/fullOffer'
 
-        "405":
+        "400":
           description: Данные не прошли валидацию
 
-        "409":
+        "401":
+          description: Пользователь не авторизован
+
+        "404":
+          description: Предложение не найдено, либо неверный Id
+
+        "403":
           description: Пользователь не является автором объявления
 
     delete:
@@ -98,40 +143,36 @@ paths:
       description: Удаляет предложение по его id
 
       responses:
-        "201":
+        "200":
           description: Предложение успешно удалено
+        
+        "401":
+          description: Пользователь не авторизован
 
-        "409":
+        "403":
           description: Пользователь не является автором объявления
 
-  /offers:
+        "404":
+          description: Предложение не найдено, либо неверный Id
+
+  /offers/premium:
     get:
       tags:
         - offers
-      summary: Получение всех предложений
-      description: Получает список всех имеющихся предложений с опредленными полями
+      parameters:
+      - name: city
+        in: header
+        required: true
+        description: Город
+        schema:
+          type: string 
 
-      responses:
-          "201": 
-            description: Получение массива объектов предложений (не более 60 штук).
-              Данные отсортированы по дате публикации (по убыванию)
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/previewOffer'
-
-  /offers/{city}/premium:
-    get:
-      tags:
-        - offers
       summary: Получение премиальных предложений в городе
       description: Получает список всех премиальных предложений в определенном городе (не более 3).
         Сортировка по дате публикации
 
       responses:
-        "201":
+        "200":
           description: Получит массив премиальных предложений города (не более 3)
           content:
             application/json:
@@ -139,25 +180,75 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/previewOffer'
+        
+        "404": 
+          description: Предложений по указанному городу не найдено, либо название города указано неверно
   
-  /offers/{userId}/favourites:
+  /offers/favourites:
     post:
         tags:
           - offers
+        parameters:
+        - name: userId
+          in: header
+          required: true
+          description: ID пользователя
+          schema:
+            type: string
+
+        - name: token
+          in: header
+          required: true
+          description: Токен
+          schema:
+            type: string
+
         summary: Добавление предложения в избранное
         description: Добавит предложение в избранные для авторизированного пользователя
 
+        requestBody:
+          description: Информация для создания нового пользователя
+          content:
+            application/json:
+              schema:
+                properties:
+                  offerId:
+                    type: string
+                    example: 652466b0b9e6a61f32d0967e
+
+          required: true
+
         responses:
-          "201":
+          "200":
             description: Добавит предложение в избранные предложения пользователя
+
+          "403":
+            description: Пользователь не авторизован
+
+          "404":
+            description: Предложение не найдено, либо неверный Id пользователя
+
     get:
         tags:
           - offers
+        parameters:
+          - name: userId
+            in: header
+            required: true
+            description: ID пользователя
+            schema:
+              type: string
+          - name: token
+            in: header
+            required: true
+            description: Токен
+            schema:
+              type: string
         summary: Получение избранных предложений
         description: Получает все избранные предложения авторизованного пользователя
 
         responses:
-          "201":
+          "200":
             description: Получит массив избранных предложений пользователя
 
             content:
@@ -167,26 +258,26 @@ paths:
                   items:
                     $ref: '#/components/schemas/previewOffer'
 
-  /offers/{userId}/favourites/{offerId}:
-    delete:
-      tags:
-        - offers
-      summary: Удаление предложения из избранного
-      description: Удаляет предложение по его id из избранных предложений авторизованного пользователя
+          "404":
+            description: Предложение не найдено, либо неверный Id пользователя
 
-      responses:
-        "201":
-          description: Предложение успешно удалено из избранного
-
-  /comments/{offerId}:
+  /comments:
     get:
       tags:
         - comments
+      parameters:
+        - name: offerId
+          in: header
+          required: true
+          description: Токен
+          schema:
+            type: string
+
       summary: Получение комментариев
       description: Получает список все комментарии по определенному предложению
 
       responses:
-        "201": 
+        "200": 
           description: Получение списка кооментариев (50 и меньше последних комментариев).
             Комментарии отсортированы по дате публикации (по убыванию)
           content:
@@ -195,10 +286,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/comment'
+        
+        "404":
+          description: Предложение не найдено, либо неверный Id
     
     post:
       tags:
         - comments
+      parameters:
+        - name: token
+          in: header
+          required: true
+          description: Токен
+          schema:
+            type: string
+
       summary: Добавление комментария
       description: Добавляет новый комментарий к предложению
 
@@ -231,10 +333,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/comment'
 
-        "405":
-          description: Данные не прошли валидацию  
+        "400":
+          description: Данные не прошли валидацию
 
-  /users/register:
+        "401":
+          description: пользователь не авторизован
+
+  /users:
     post:
       tags:
         - users
@@ -250,19 +355,47 @@ paths:
         required: true
 
       responses:
-        "201": 
+        "200":
           description: Пользователь зарегистрирован. Объект пользователя
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
-                properties:
-                  password:
-                    type: string
-                    example: 123456
 
-        "409":
+        "403":
           description: Пользователь с таким email уже существует
+
+  /users/favourites: 
+    delete:
+      tags:
+        - users
+      parameters:
+        - name: offerId
+          in: header
+          required: true
+          description: Токен
+          schema:
+            type: string
+        
+        - name: token
+          in: header
+          required: true
+          description: Токен
+          schema:
+            type: string
+
+      summary: Удаление предложения из избранного
+      description: Удаляет предложение по его id из избранных предложений авторизованного пользователя
+
+      responses:
+        "201":
+          description: Предложение успешно удалено из избранного
+        
+        "401":
+          description: пользователь не авторизован
+
+        "404":
+          description: Предложение не найдено, либо неверный Id
 
   /users/login:
     post:
@@ -287,8 +420,8 @@ paths:
         required: true
 
       responses:
-        "201": 
-          description: Пользователь авторизирован
+        "200": 
+          description: Токен пользователя
           content:
             application/json:
               schema:
@@ -299,23 +432,37 @@ paths:
                     type: string
                     example: '###################'
 
-        "409":
-          description: Логин или пароль неверные или пользователь не существует
+        "400":
+          description: Логин или пароль неверные
+
+        "404":
+          description: Пользователь не найден, либо неверный email
 
     get:
       tags:
         - users
+      parameters:
+      - name: userToken
+        in: header
+        required: true
+        description: Токен
+        schema:
+          type: string 
 
       summary: Получение информации об авторизации пользователя
       description: Получит данные пользователя на основе токена
 
       responses:
-        "201": 
-          description: Пользователь авторизирован
+        "200": 
+          description: Объект пользователя
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+
+        "403":
+          description: Доступ запрещен
+    
 
 
 components:
