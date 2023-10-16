@@ -1,6 +1,6 @@
 import { User } from './user.type.js';
 
-export type Comment = {
+export interface Comment {
   text: string;
   date: Date;
   rating: number;
