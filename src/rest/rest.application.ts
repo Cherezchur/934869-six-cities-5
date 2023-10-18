@@ -1,13 +1,15 @@
-import { inject, injectable } from 'inversify';
 import express, { Express } from 'express';
-import { Logger } from '../shared/libs/logger/index.js';
+import { inject, injectable } from 'inversify';
+
 import { Config, RestSchema } from '../shared/libs/config/index.js';
-import { Component } from '../shared/types/components.enum.js';
 import { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
-import { getMongoURI } from '../shared/helpers/database.js';
+import { Logger } from '../shared/libs/logger/index.js';
+import { Controller } from '../shared/libs/rest/index.js';
+// import { CommentService } from '../shared/modules/comment/index.js';
 // import { OfferService } from '../shared/modules/offer/index.js';
 // import { UserService } from '../shared/modules/user/index.js';
-// import { CommentService } from '../shared/modules/comment/index.js';
+import { getMongoURI } from '../shared/helpers/database.js';
+import { Component } from '../shared/types/components.enum.js';
 
 @injectable()
 export class RestApplication {
@@ -16,6 +18,7 @@ export class RestApplication {
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.DatabaseClient) private readonly databaseClient: DatabaseClient,
+    @inject(Component.OfferController) private readonly offerController: Controller,
     // @inject(Component.UserService) private readonly userService: UserService,
     // @inject(Component.OfferService) private readonly offerService: OfferService,
     // @inject(Component.CommentService) private readonly commentService: CommentService
@@ -23,7 +26,7 @@ export class RestApplication {
     this.server = express();
   }
 
-  private async _initDb() {
+  private async initDb() {
     const mongoUri = getMongoURI(
       this.config.get('DB_USER'),
       this.config.get('DB_PASSWORD'),
@@ -35,20 +38,28 @@ export class RestApplication {
     return this.databaseClient.connect(mongoUri);
   }
 
-  private async _initServer() {
+  private async initServer() {
     const port = this.config.get('PORT');
     this.server.listen(port);
+  }
+
+  private async initControllers() {
+    this.server.use('/offers', this.offerController.router);
   }
 
   public async init() {
     this.logger.info('Application initialization');
 
     this.logger.info('Init database...');
-    await this._initDb();
+    await this.initDb();
     this.logger.info('Init database complited');
 
+    this.logger.info('Init controllers');
+    await this.initControllers();
+    this.logger.info('Controller initialization completed');
+
     this.logger.info('Try to init server...');
-    await this._initServer();
+    await this.initServer();
     this.logger.info(`🚀 Server started on http://localhost:${this.config.get('PORT')}`);
 
     // await this.getExpertiments();
