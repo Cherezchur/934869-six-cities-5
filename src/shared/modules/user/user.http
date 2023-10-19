@@ -5,10 +5,22 @@ POST http://localhost:5000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "lebrone@mail.net",
-  "avatarPath": "lebrone.png",
-  "name": "Lebrone James",
-  "password": "la-forever"
+  "email": "lebrone1@mail.net",
+  "avatarPath": "lebrone1.png",
+  "name": "Lebrone James First",
+  "password": "la-forever-one"
+}
+
+###
+
+## Авторизовать пользователя
+
+POST http://localhost:5000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "lebrone2@mail.net",
+  "password": "la-forever-one"
 }
 
 ###
