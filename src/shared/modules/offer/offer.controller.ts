@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-// import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 
 import { Logger } from '../../libs/logger/index.js';
