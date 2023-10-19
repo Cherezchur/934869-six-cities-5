@@ -9,12 +9,11 @@ export class CreateOfferDto {
   public images: string[];
   public isPremium: boolean;
   public isFavourites: boolean;
-  public rating: number;
   public housingType: HousingType;
   public rooms: number;
   public guestsNumber: number;
   public price: number;
   public comfort: Comfort[];
   public userId: string;
-  public coordinates: object;
+  public coordinates: string[];
 }

@@ -1,6 +1,40 @@
-# Категории
-## Получить список категорий
+# Предложения
+## Получить список предложений
 GET http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
+
+###
+
+## Добавить новое предложение
+POST http://localhost:5000/offers HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Лофт в подземелье",
+  "description": "Адски красивый лофт",
+  "createdDate": "2023-09-23T16:17:26.406Z",
+  "city": "Paris",
+  "previewImage": "loft-hell.jpg",
+  "images": [
+    "loft-hell-1.jpg",
+    "loft-hell-2.jpg",
+    "loft-hell-3.jpg"
+  ],
+  "isPremium": true,
+  "isFavourites": false,
+  "rating": 0,
+  "housingType": "apartment",
+  "rooms": 5,
+  "guestsNumber": 10,
+  "price": 13666,
+  "comfort": [
+    "Air conditioning",
+    "Laptop friendly workspace",
+    "Fridge"
+  ],
+  "userId": "652466b0b9e6a61f32d09684",
+  "coordinates": ["48.85661", "2.351499"]
+}
+
 
 ###
