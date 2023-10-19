@@ -4,7 +4,7 @@ import { inject, injectable } from 'inversify';
 import { Config, RestSchema } from '../shared/libs/config/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
 import { Logger } from '../shared/libs/logger/index.js';
-import { Controller } from '../shared/libs/rest/index.js';
+import { Controller, ExceptionFilter } from '../shared/libs/rest/index.js';
 // import { CommentService } from '../shared/modules/comment/index.js';
 // import { OfferService } from '../shared/modules/offer/index.js';
 // import { UserService } from '../shared/modules/user/index.js';
@@ -19,6 +19,8 @@ export class RestApplication {
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.DatabaseClient) private readonly databaseClient: DatabaseClient,
     @inject(Component.OfferController) private readonly offerController: Controller,
+    @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter,
+    @inject(Component.UserController) private readonly userController: Controller,
     // @inject(Component.UserService) private readonly userService: UserService,
     // @inject(Component.OfferService) private readonly offerService: OfferService,
     // @inject(Component.CommentService) private readonly commentService: CommentService
@@ -45,6 +47,15 @@ export class RestApplication {
 
   private async initControllers() {
     this.server.use('/offers', this.offerController.router);
+    this.server.use('/users', this.userController.router);
+  }
+
+  private async initMiddleware() {
+    this.server.use(express.json());
+  }
+
+  private async initExceptionFilters() {
+    this.server.use(this.appExceptionFilter.catch.bind(this.appExceptionFilter));
   }
 
   public async init() {
@@ -54,9 +65,17 @@ export class RestApplication {
     await this.initDb();
     this.logger.info('Init database complited');
 
+    this.logger.info('Init app-level middleware');
+    await this.initMiddleware();
+    this.logger.info('App-level middleware initialization completed');
+
     this.logger.info('Init controllers');
     await this.initControllers();
     this.logger.info('Controller initialization completed');
+
+    this.logger.info('Init exception filters');
+    await this.initExceptionFilters();
+    this.logger.info('Exception filters initialization compleated');
 
     this.logger.info('Try to init server...');
     await this.initServer();
