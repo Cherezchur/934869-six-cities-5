@@ -11,6 +11,7 @@ import { UserRdo } from './rdo/user.rdo.js';
 import { CreateUserRequest } from './create-user-request.type.js';
 import { UserService } from './index.js';
 import { LoginUserRequest } from './login-user-request.type.js';
+// import { UpdateUserRequest } from './update-user-request.type.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -63,5 +64,8 @@ export class UserController extends BaseController {
       'Not implemented',
       'UserController',
     );
+  }
+
+  public async updateById(): Promise<void> {
   }
 }
