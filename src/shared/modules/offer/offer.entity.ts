@@ -1,4 +1,5 @@
 import { defaultClasses, getModelForClass, modelOptions, prop, Severity, Ref } from '@typegoose/typegoose';
+
 import { Cities, Comfort, HousingType } from '../../types/index.js';
 import { UserEntity } from '../user/user.entity.js';
 
@@ -72,7 +73,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     ref: UserEntity,
     required: true,
   })
-  public userId: Ref<UserEntity>;
+  public userId!: Ref<UserEntity>;
 
   @prop({default: 0, required: true})
   public commentsCount: number;
