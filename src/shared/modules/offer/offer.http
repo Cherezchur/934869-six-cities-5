@@ -1,7 +1,6 @@
 # Предложения
 ## Получить список предложений
 GET http://localhost:5000/offers HTTP/1.1
-Content-Type: application/json
 
 ###
 
@@ -40,12 +39,12 @@ Content-Type: application/json
 ###
 
 ## Получить объявление по идентификатору
-GET http://localhost:5000/offers/652466b0b9e6a61f32d09687 HTTP/1.1
+GET http://localhost:5000/offers/652466b0b9e6a61f32d09690 HTTP/1.1
 
 ###
 
 ## Удалить объявление по идентификатору
-DELETE http://localhost:5000/offers/652466b0b9e6a61f32d0968b HTTP/1.1
+DELETE http://localhost:5000/offers/6524691c2bf47fa9a8cf4e5c HTTP/1.1
 
 ###
 
@@ -60,5 +59,15 @@ Content-Type: application/json
   "price": 1100,
   "isPremium": true
 }
+
+###
+
+## Получить комментариев к объявлению
+GET http://localhost:5000/offers/652466b0b9e6a61f32d09690/comments HTTP/1.1
+
+###
+
+## Получить премиальные предложения по городу
+GET http://localhost:5000/offers/premium/Brussels HTTP/1.1
 
 ###

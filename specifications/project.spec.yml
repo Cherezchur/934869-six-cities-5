@@ -155,17 +155,32 @@ paths:
         "404":
           description: Предложение не найдено, либо неверный Id
 
-  /offers/premium:
+  /offers/{offerId}/comments:
     get:
       tags:
         - offers
-      parameters:
-      - name: city
-        in: header
-        required: true
-        description: Город
-        schema:
-          type: string 
+
+      summary: Получение комментариев
+      description: Получает список все комментарии по определенному предложению
+
+      responses:
+        "200": 
+          description: Получение списка кооментариев (50 и меньше последних комментариев).
+            Комментарии отсортированы по дате публикации (по убыванию)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
+        
+        "404":
+          description: Предложение не найдено, либо неверный Id
+
+  /offers/premium/{city}:
+    get:
+      tags:
+        - offers
 
       summary: Получение премиальных предложений в городе
       description: Получает список всех премиальных предложений в определенном городе (не более 3).
@@ -262,33 +277,6 @@ paths:
             description: Предложение не найдено, либо неверный Id пользователя
 
   /comments:
-    get:
-      tags:
-        - comments
-      parameters:
-        - name: offerId
-          in: header
-          required: true
-          description: Токен
-          schema:
-            type: string
-
-      summary: Получение комментариев
-      description: Получает список все комментарии по определенному предложению
-
-      responses:
-        "200": 
-          description: Получение списка кооментариев (50 и меньше последних комментариев).
-            Комментарии отсортированы по дате публикации (по убыванию)
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/comment'
-        
-        "404":
-          description: Предложение не найдено, либо неверный Id
     
     post:
       tags:

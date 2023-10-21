@@ -1,4 +1,5 @@
 import { defaultClasses, getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
+
 import { OfferEntity } from '../offer/offer.entity.js';
 import { UserEntity } from '../user/user.entity.js';
 
@@ -15,9 +16,6 @@ export interface CommentEntity extends defaultClasses.Base {}
 export class CommentEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, trim: true })
   public text: string;
-
-  @prop({required: true})
-  public createdDate: Date;
 
   @prop({required: true})
   public rating: number;
