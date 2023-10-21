@@ -7,3 +7,5 @@ export * from './default-offer.service.js';
 export * from './offer-service.interface.js';
 export * from './offer.container.js';
 export * from './offer.entity.js';
+export * from './type/param-city.type.js';
+export * from './type/param-offer-id.type.js';
