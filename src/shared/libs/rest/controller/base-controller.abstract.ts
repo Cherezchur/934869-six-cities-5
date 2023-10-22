@@ -10,17 +10,17 @@ import { Controller } from './controller.interface.js';
 
 @injectable()
 export abstract class BaseController implements Controller {
-  private readonly _router: Router;
+  public readonly router: Router;
 
   constructor(
     protected readonly logger: Logger
   ) {
-    this._router = Router();
+    this.router = Router();
   }
 
-  get router() {
-    return this._router;
-  }
+  // get router() {
+  //   return this.router;
+  // }
 
   public addRoute(route: Route): void {
     const wrapperAsyncHandler = asyncHandler(route.handler.bind(this));
@@ -29,7 +29,7 @@ export abstract class BaseController implements Controller {
     );
     const allHandlers = middlewareHandlers ? [...middlewareHandlers, wrapperAsyncHandler] : wrapperAsyncHandler;
 
-    this._router[route.method](route.path, allHandlers);
+    this.router[route.method](route.path, allHandlers);
     this.logger.info(`Route registered: ${route.method.toUpperCase()} ${route.path}`);
   }
 

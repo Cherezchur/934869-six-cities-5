@@ -23,7 +23,7 @@ Content-Type: application/json
   "isFavourites": false,
   "rating": 0,
   "housingType": "apartment",
-  "rooms": 5,
+  "rooms": 55,
   "guestsNumber": 10,
   "price": 13666,
   "comfort": [
