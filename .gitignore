@@ -4,6 +4,7 @@
 /lib/
 /dist/
 /docs/
+/upload/
 .idea/*
 
 /mocks/*.tsv
