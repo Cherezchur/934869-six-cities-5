@@ -32,6 +32,9 @@ export class FullOfferRdo {
   public commentsCount: number;
 
   @Expose()
+  public rating: number;
+
+  @Expose()
   public rooms: number;
 
   @Expose()
