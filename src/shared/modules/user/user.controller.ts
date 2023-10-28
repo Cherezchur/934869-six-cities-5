@@ -1,10 +1,17 @@
-import { Response } from 'express';
+import {
+  BaseController,
+  HttpError,
+  HttpMethod,
+  ValidateDtoMiddleware,
+  UploadFileMiddleware,
+  ValidateObjectIdMiddleware
+} from '../../libs/rest/index.js';
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 
 import { Config, RestSchema } from '../../libs/config/index.js';
 import { Logger } from '../../libs/logger/index.js';
-import { BaseController,HttpError, HttpMethod, ValidateDtoMiddleware } from '../../libs/rest/index.js';
 import { fillDTO } from '../../helpers/common.js';
 import { Component } from '../../types/index.js';
 import { UserRdo } from './rdo/user.rdo.js';
@@ -34,6 +41,15 @@ export class UserController extends BaseController {
       method: HttpMethod.Post,
       handler: this.login,
       middlewares: [ new ValidateDtoMiddleware(LoginUserDto) ]
+    });
+    this.addRoute({
+      path: '/:userId/avatar',
+      method: HttpMethod.Post,
+      handler: this.uploadAvatar,
+      middlewares: [
+        new ValidateObjectIdMiddleware('userId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar')
+      ]
     });
   }
 
@@ -76,6 +92,9 @@ export class UserController extends BaseController {
     );
   }
 
-  public async updateById(): Promise<void> {
+  public async uploadAvatar(req: Request, res: Response): Promise<void> {
+    this.created(res, {
+      filepath: req.file?.path,
+    });
   }
 }
