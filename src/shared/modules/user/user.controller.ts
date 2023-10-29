@@ -14,6 +14,8 @@ import { Config, RestSchema } from '../../libs/config/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/common.js';
 import { Component } from '../../types/index.js';
+import { AuthService } from '../auth/index.js';
+import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { CreateUserRequest } from './create-user-request.type.js';
 import { UserService } from './index.js';
@@ -25,7 +27,8 @@ export class UserController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.UserService) private readonly userServise: UserService,
-    @inject(Component.Config) private readonly configService: Config<RestSchema>
+    @inject(Component.Config) private readonly configService: Config<RestSchema>,
+    @inject(Component.AuthService) private readonly authService: AuthService
   ) {
     super(logger);
     this.logger.info('Register routes for UserController...');
@@ -73,23 +76,15 @@ export class UserController extends BaseController {
 
   public async login(
     { body }: LoginUserRequest,
-    _res: Response,
+    res: Response,
   ): Promise<void> {
-    const existsUser = await this.userServise.findByEmail(body.email);
-
-    if (! existsUser) {
-      throw new HttpError(
-        StatusCodes.UNAUTHORIZED,
-        `User with email ${body.email} not found.`,
-        'UserController',
-      );
-    }
-
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController',
-    );
+    const user = await this.authService.verify(body);
+    const token = await this.authService.authenticate(user);
+    const responseData = fillDTO(LoggedUserRdo, {
+      email: user.email,
+      token,
+    });
+    this.ok(res, responseData);
   }
 
   public async uploadAvatar(req: Request, res: Response): Promise<void> {
