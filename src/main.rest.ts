@@ -1,6 +1,7 @@
 import { Container } from 'inversify';
 
 import 'reflect-metadata';
+import { createAuthContainer } from './shared/modules/auth/auth.container.js';
 import { createCommentContainer } from './shared/modules/comment/comment.container.js';
 import { createOfferContainer } from './shared/modules/offer/index.js';
 import { createUserContainer } from './shared/modules/user/index.js';
@@ -13,7 +14,8 @@ async function bootstrap() {
     createRestApplicationContainer(),
     createUserContainer(),
     createOfferContainer(),
-    createCommentContainer()
+    createCommentContainer(),
+    createAuthContainer()
   );
 
   const application = appContainer.get<RestApplication>(Component.RestApplication);
