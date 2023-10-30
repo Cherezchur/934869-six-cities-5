@@ -4,7 +4,8 @@ import {
   HttpMethod,
   ValidateDtoMiddleware,
   UploadFileMiddleware,
-  ValidateObjectIdMiddleware
+  ValidateObjectIdMiddleware,
+  ParseTokenMiddleware,
 } from '../../libs/rest/index.js';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -46,6 +47,12 @@ export class UserController extends BaseController {
       middlewares: [ new ValidateDtoMiddleware(LoginUserDto) ]
     });
     this.addRoute({
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.checkAuthenticate,
+      middlewares: [ new ParseTokenMiddleware(configService.get('JWT_SECRET'))]
+    });
+    this.addRoute({
       path: '/:userId/avatar',
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
@@ -85,6 +92,37 @@ export class UserController extends BaseController {
       token,
     });
     this.ok(res, responseData);
+  }
+
+  public async checkAuthenticate({ tokenPayload: { email }}: Request, res: Response) {
+
+    // const authorizationHeader = req.headers?.authorization?.split(' ');
+
+    // if (! authorizationHeader) {
+    //   throw new HttpError(
+    //     StatusCodes.UNAUTHORIZED,
+    //     'Unauthorized',
+    //     'UserController'
+    //   );
+    // }
+
+    // const [, token] = authorizationHeader;
+
+    // const { email } = decodeJwt(token);
+
+    console.log('foundedUser', email);
+
+    const foundedUser = await this.userServise.findByEmail(email);
+
+    if(! foundedUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    this.ok(res, fillDTO(UserRdo, foundedUser));
   }
 
   public async uploadAvatar(req: Request, res: Response): Promise<void> {

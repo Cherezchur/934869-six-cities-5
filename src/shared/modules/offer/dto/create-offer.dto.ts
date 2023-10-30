@@ -1,4 +1,4 @@
-import { Length, IsArray, IsDateString, IsEnum, IsInt, IsMongoId, Max, MaxLength, Min, ArrayMinSize, ArrayMaxSize, IsBoolean } from 'class-validator';
+import { Length, IsArray, IsDateString, IsEnum, IsInt, Max, MaxLength, Min, ArrayMinSize, ArrayMaxSize, IsBoolean } from 'class-validator';
 
 import { HousingType, Comfort, Cities } from '../../../types/index.js';
 import { TITLE, DESCRIPTION, ROOMS, GUESTS, PRICE, COORDINATES_LENGHT } from '../const/validate-offer.const.js';
@@ -51,7 +51,6 @@ export class CreateOfferDto {
   @IsEnum(Comfort, { each: true, message: 'type must be Comfort' })
   public comfort: Comfort[];
 
-  @IsMongoId({ message: 'userId field must be a valid id' })
   public userId: string;
 
   @IsArray({ message: 'Field comfort must be an array' })

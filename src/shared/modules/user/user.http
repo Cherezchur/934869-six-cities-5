@@ -5,10 +5,11 @@ POST http://localhost:5000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "lebrone1@mail.net",
+  "email": "lebLA@mail.net",
   "avatarPath": "lebrone1.png",
-  "name": "Lebrone James First",
-  "password": "la-forever-one"
+  "name": "Lebrone First",
+  "password": "la-one",
+  "userType": "Pro"
 }
 
 ###
@@ -19,8 +20,8 @@ POST http://localhost:5000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "lebrone1@mail.net",
-  "password": "la-forever-one"
+  "email": "lebLA@mail.net",
+  "password": "la-one"
 }
 
 ###
@@ -37,4 +38,10 @@ Content-Type: image/png
 < E:\picture\LlB_Hkf9LsU.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-##
+###
+
+## Проверить токен пользователя
+GET http://localhost:5000/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTGVicm9uZSBGaXJzdCIsImVtYWlsIjoibGViTEFAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjUzZjczNjAwMDQ1NWY2MWViNzIzY2FmIiwiaWF0IjoxNjk4NjU3MTY2LCJleHAiOjE2OTg4Mjk5NjZ9.8d4AOT7MP4R_TMQv_eJZ4ijxkY-zeatg3TXQgajixSA
+
+###
