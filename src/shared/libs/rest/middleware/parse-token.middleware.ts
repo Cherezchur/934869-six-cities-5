@@ -11,8 +11,8 @@ function isTokenPayload(payload: unknown): payload is TokenPayload {
   return (
     (typeof payload === 'object' && payload !== null) &&
     ('email' in payload && typeof payload.email === 'string') &&
-    ('firstname' in payload && typeof payload.firstname === 'string') &&
-    ('lastname' in payload && typeof payload.lastname === 'string') &&
+    ('name' in payload && typeof payload.name === 'string') &&
+    ('userType' in payload && typeof payload.userType === 'string') &&
     ('id' in payload && typeof payload.id === 'string')
   );
 }
@@ -34,6 +34,12 @@ export class ParseTokenMiddleware implements Middleware {
       if (isTokenPayload(payload)) {
         req.tokenPayload = { ...payload };
         return next();
+      } else {
+        return next(new HttpError(
+          StatusCodes.UNAUTHORIZED,
+          'Invalid token',
+          'AuthenticateMiddleware')
+        );
       }
     } catch {
 

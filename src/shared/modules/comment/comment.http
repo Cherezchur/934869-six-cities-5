@@ -5,8 +5,8 @@ POST http://localhost:5000/comments HTTP/1.1
 Content-Type: application/json
 
 {
-  "text": "Нейтрально отношусь к Ларе Лофт, да и место не стоит своих денег",
-  "rating": 5,
+  "text": "Пойдет",
+  "rating": 3,
   "offerId": "652466b0b9e6a61f32d09690",
   "userId": "652466b0b9e6a61f32d0968e"
 }
