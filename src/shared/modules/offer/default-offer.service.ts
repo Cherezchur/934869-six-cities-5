@@ -25,6 +25,7 @@ export class DefaultOfferService implements OfferService {
   ) {}
 
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
+    await this.offerModel.deleteMany();
     const user = await this.userModel.findById(dto.userId);
 
     if (!user) {
@@ -72,13 +73,9 @@ export class DefaultOfferService implements OfferService {
       .exec();
 
     return offer;
-
-    // return this.offerModel.aggregate(pipeLine).exec();
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    // Необходимо удалить все комментарии, связанные с предложением
-
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();
