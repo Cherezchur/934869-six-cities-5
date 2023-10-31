@@ -5,10 +5,13 @@ import {
   DocumentExistsMiddleware,
   ValidateObjectIdMiddleware,
   PrivateRouteMiddleware,
+  ParseTokenMiddleware,
+  AuthorshipVerificateMiddleware,
 } from '../../libs/rest/index.js';
 import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 
+import { Config, RestSchema } from '../../libs/config/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/common.js';
 import { Component } from '../../types/index.js';
@@ -24,7 +27,8 @@ export class OfferController extends BaseController {
   constructor(
     @inject(Component.Logger) protected logger: Logger,
     @inject(Component.OfferService) private readonly offerService: OfferService,
-    @inject(Component.CommentService) private readonly commentService: CommentService
+    @inject(Component.CommentService) private readonly commentService: CommentService,
+    @inject(Component.Config) private readonly configService: Config<RestSchema>,
   ) {
     super(logger);
 
@@ -36,6 +40,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new ParseTokenMiddleware(this.configService.get('JWT_SECRET')),
         new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateOfferDto)
       ]
@@ -54,9 +59,11 @@ export class OfferController extends BaseController {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
+        new ParseTokenMiddleware(this.configService.get('JWT_SECRET')),
         new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+        new AuthorshipVerificateMiddleware(this.offerService, 'offerId')
       ]
     });
     this.addRoute({
@@ -64,10 +71,12 @@ export class OfferController extends BaseController {
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new ParseTokenMiddleware(this.configService.get('JWT_SECRET')),
         new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+        new AuthorshipVerificateMiddleware(this.offerService, 'offerId')
       ]
     });
     this.addRoute({
