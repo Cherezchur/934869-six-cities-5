@@ -2,11 +2,11 @@
 ## Создать комментарий
 
 POST http://localhost:5000/comments HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTGVicm9uZSBGaXJzdCIsImVtYWlsIjoibGViTEFAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjUzZjczNjAwMDQ1NWY2MWViNzIzY2FmIiwiaWF0IjoxNjk4NzM0MzE1LCJleHAiOjE2OTg5MDcxMTV9.zAo16oVUNMpcvrlCZQJOhRL7Eg2CiZmWnOtyo-egk3M
 Content-Type: application/json
 
 {
   "text": "Пойдет",
   "rating": 3,
-  "offerId": "652466b0b9e6a61f32d09690",
-  "userId": "652466b0b9e6a61f32d0968e"
+  "offerId": "652466b0b9e6a61f32d09690"
 }

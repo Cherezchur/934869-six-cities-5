@@ -39,7 +39,7 @@ Content-Type: application/json
 ###
 
 ## Получить объявление по идентификатору
-GET http://localhost:5000/offers/6540ad1fd8e6f337ea72d15c HTTP/1.1
+GET http://localhost:5000/offers/6540fa58af15260c75d27260 HTTP/1.1
 
 ###
 

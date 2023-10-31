@@ -1,14 +1,14 @@
 import {
   BaseController,
-  HttpError,
   HttpMethod,
+  ParseTokenMiddleware,
   PrivateRouteMiddleware,
   ValidateDtoMiddleware
 } from '../../libs/rest/index.js';
 import { Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 
+import { Config, RestSchema } from '../../libs/config/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/index.js';
 import { Component } from '../../types/index.js';
@@ -24,6 +24,7 @@ export default class CommentController extends BaseController {
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.CommentService) private readonly commentService: CommentService,
     @inject(Component.OfferService) private readonly offerService: OfferService,
+    @inject(Component.Config) private readonly configService: Config<RestSchema>,
   ) {
     super(logger);
 
@@ -33,6 +34,7 @@ export default class CommentController extends BaseController {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new ParseTokenMiddleware(this.configService.get('JWT_SECRET')),
         new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateCommentDto)
       ],
@@ -43,14 +45,6 @@ export default class CommentController extends BaseController {
     { body, tokenPayload }: CreateCommentRequest,
     res: Response
   ): Promise<void> {
-
-    if (! await this.offerService.exists(body.offerId)) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${body.offerId} not found.`,
-        'CommentController'
-      );
-    }
 
     const comment = await this.commentService.create({...body, userId: tokenPayload.id });
     await this.offerService.incCommentCount(body.offerId);

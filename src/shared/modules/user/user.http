@@ -8,7 +8,7 @@ Content-Type: application/json
   "email": "lebLA@mail.net",
   "avatarPath": "lebrone1.png",
   "name": "Lebrone First",
-  "password": "la-one",
+  "password": "123456",
   "userType": "Pro"
 }
 
