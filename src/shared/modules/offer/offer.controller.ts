@@ -89,6 +89,15 @@ export class OfferController extends BaseController {
       ]
     });
     this.addRoute({ path: '/premium/:city', method: HttpMethod.Get, handler: this.getPremium });
+    this.addRoute({
+      path: '/bundles/favorites',
+      method: HttpMethod.Get,
+      handler: this.getFavourites,
+      middlewares: [
+        new ParseTokenMiddleware(this.configService.get('JWT_SECRET')),
+        new PrivateRouteMiddleware(),
+      ]
+    });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -129,5 +138,10 @@ export class OfferController extends BaseController {
   public async getPremium({ params }: Request<ParamCity>, res: Response): Promise<void> {
     const premiumOffers = await this.offerService.findPremimByCity(params.city, DEFAULT_PREMIUM_OFFER_COUNT);
     this.ok(res, fillDTO(OfferRdo, premiumOffers));
+  }
+
+  public async getFavourites({ tokenPayload }: Request, res: Response): Promise<void> {
+    const favouriteOffers = await this.offerService.findFavouritesByUserId(tokenPayload.id);
+    this.ok(res, fillDTO(OfferRdo, favouriteOffers));
   }
 }

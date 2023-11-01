@@ -17,6 +17,8 @@ export class CreateUserDto {
   @IsEnum(UserType, { message: 'type must be user type' })
   public userType: UserType;
 
+  public favouriteOffers: string[];
+
   @IsString({ message: 'password is required' })
   @Length(6, 12, { message: `min length for password is ${PASSWORD_VALIDATE_LENGHT.MIN}, max is ${PASSWORD_VALIDATE_LENGHT.MAX}` })
   public password: string;

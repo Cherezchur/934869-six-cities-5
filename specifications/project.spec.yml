@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: API сервер для проекта SIX-SITIES 
+  title: API сервер для проекта SIX-SITIES
   description: |-
     * Список ресурсов и маршрутов сервера «six-sities».
   license:
@@ -15,7 +15,7 @@ tags:
   - name: users
     description: Действия с пользователем
 
-paths: 
+paths:
 
   /offers:
     post:
@@ -27,7 +27,7 @@ paths:
         required: true
         description: Токен
         schema:
-          type: string 
+          type: string
 
       summary: Создание предложения
       description: Создает новое предложение
@@ -42,7 +42,7 @@ paths:
         required: true
 
       responses:
-        "201": 
+        "201":
           description: Предложение добавлено. Объект предложения
           content:
             application/json:
@@ -62,7 +62,7 @@ paths:
       description: Получает список всех имеющихся предложений с опредленными полями
 
       responses:
-          "200": 
+          "200":
             description: Получение массива объектов предложений (не более 60 штук).
               Данные отсортированы по дате публикации (по убыванию)
             content:
@@ -80,7 +80,7 @@ paths:
       description: Получает детальную информацию по предложению
 
       responses:
-        "200": 
+        "200":
           description: Получение объекта предложения
           content:
             application/json:
@@ -145,7 +145,7 @@ paths:
       responses:
         "200":
           description: Предложение успешно удалено
-        
+
         "401":
           description: Пользователь не авторизован
 
@@ -164,7 +164,7 @@ paths:
       description: Получает список все комментарии по определенному предложению
 
       responses:
-        "200": 
+        "200":
           description: Получение списка кооментариев (50 и меньше последних комментариев).
             Комментарии отсортированы по дате публикации (по убыванию)
           content:
@@ -173,7 +173,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/comment'
-        
+
         "404":
           description: Предложение не найдено, либо неверный Id
 
@@ -195,64 +195,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/previewOffer'
-        
-        "404": 
+
+        "404":
           description: Предложений по указанному городу не найдено, либо название города указано неверно
-  
-  /offers/favourites:
-    post:
-        tags:
-          - offers
-        parameters:
-        - name: userId
-          in: header
-          required: true
-          description: ID пользователя
-          schema:
-            type: string
 
-        - name: token
-          in: header
-          required: true
-          description: Токен
-          schema:
-            type: string
-
-        summary: Добавление предложения в избранное
-        description: Добавит предложение в избранные для авторизированного пользователя
-
-        requestBody:
-          description: Информация для создания нового пользователя
-          content:
-            application/json:
-              schema:
-                properties:
-                  offerId:
-                    type: string
-                    example: 652466b0b9e6a61f32d0967e
-
-          required: true
-
-        responses:
-          "200":
-            description: Добавит предложение в избранные предложения пользователя
-
-          "403":
-            description: Пользователь не авторизован
-
-          "404":
-            description: Предложение не найдено, либо неверный Id пользователя
+  /offers/favorites:
 
     get:
         tags:
           - offers
         parameters:
-          - name: userId
-            in: header
-            required: true
-            description: ID пользователя
-            schema:
-              type: string
           - name: token
             in: header
             required: true
@@ -277,7 +229,7 @@ paths:
             description: Предложение не найдено, либо неверный Id пользователя
 
   /comments:
-    
+
     post:
       tags:
         - comments
@@ -300,7 +252,7 @@ paths:
               type: object
 
               properties:
-                text: 
+                text:
                   type: string
                   example: Текст комментария
 
@@ -318,7 +270,7 @@ paths:
         required: true
 
       responses:
-        "201": 
+        "201":
           description: Получение созданного комментария
           content:
             application/json:
@@ -357,37 +309,48 @@ paths:
         "403":
           description: Пользователь с таким email уже существует
 
-  /users/favourites: 
-    delete:
+  /users/favorites:
+
+    put:
       tags:
         - users
       parameters:
-        - name: offerId
-          in: header
-          required: true
-          description: Токен
-          schema:
-            type: string
-        
         - name: token
           in: header
           required: true
           description: Токен
           schema:
             type: string
+      summary: Добавление и удаление объявления из избранных пользователя
+      description: Добавляет и удаляет объявление в массиве избранных объявлений
 
-      summary: Удаление предложения из избранного
-      description: Удаляет предложение по его id из избранных предложений авторизованного пользователя
+      requestBody:
+        description: Id объявления
+        content:
+          application/json:
+            schema:
+              type: object
+
+              properties:
+                offerId:
+                  type: string
+                  example: Id объявления
+
+        required: true
 
       responses:
-        "201":
-          description: Предложение успешно удалено из избранного
-        
-        "401":
-          description: пользователь не авторизован
+        '204':
+          description: Статус избранного успешно обновлен для объявления
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fullOffer'
 
-        "404":
-          description: Предложение не найдено, либо неверный Id
+        "400":
+          description: Объявление не найдено
+
+        "401":
+          description: Пользователь не авторизован
 
   /users/login:
     post:
@@ -412,7 +375,7 @@ paths:
         required: true
 
       responses:
-        "200": 
+        "200":
           description: Токен пользователя
           content:
             application/json:
@@ -439,13 +402,13 @@ paths:
         required: true
         description: Токен
         schema:
-          type: string 
+          type: string
 
       summary: Получение информации об авторизации пользователя
       description: Получит данные пользователя на основе токена
 
       responses:
-        "200": 
+        "200":
           description: Объект пользователя
           content:
             application/json:
@@ -461,7 +424,7 @@ components:
       type: object
 
       properties:
-        title: 
+        title:
           type: string
           example: Заголовок предложения
 
@@ -473,7 +436,7 @@ components:
           type: string
           example: '2023-09-22T16:17:26.404Z'
 
-        city: 
+        city:
           type: string
           example: 'Один из 6 городов'
 
@@ -481,50 +444,50 @@ components:
           type: string
           example: 'studio.jpg'
 
-        images: 
+        images:
           type: array
           example: ['studio.jpg', 'studio-1.jpg']
 
-        isPremium: 
+        isPremium:
           type: boolean
           example: false
 
-        isFavourites: 
+        isFavourites:
           type: boolean
           example: false
 
-        rating: 
+        rating:
           type: number
           example: 0
 
-        housingType: 
+        housingType:
           type: string
           example: 'studio'
 
-        rooms: 
-          type: number
-          example: 1
-        
-        guestsNumber: 
+        rooms:
           type: number
           example: 1
 
-        price: 
+        guestsNumber:
+          type: number
+          example: 1
+
+        price:
           type: number
           example: 100
 
-        comfort: 
+        comfort:
           type: array
           example: ['Fridge', 'Towels']
 
-        userType: 
+        userType:
           type: string
           example: User
 
-        comments: 
+        comments:
           type: number
           example: 0
-        
+
         userId:
           type: string
           example: '6524578b3e67fd0291b6996f'
@@ -537,19 +500,19 @@ components:
       type: object
 
       properties:
-        price: 
+        price:
           type: number
           example: 100
-        
-        title: 
+
+        title:
           type: string
           example: Заголовок предложения
 
-        housingType: 
+        housingType:
           type: string
           example: 'studio'
 
-        isFavourites: 
+        isFavourites:
           type: boolean
           example: false
 
@@ -557,7 +520,7 @@ components:
           type: string
           example: '2023-09-22T16:17:26.404Z'
 
-        city: 
+        city:
           type: string
           example: 'Один из 6 городов'
 
@@ -565,15 +528,15 @@ components:
           type: string
           example: 'studio.jpg'
 
-        isPremium: 
+        isPremium:
           type: boolean
           example: false
-        
-        rating: 
+
+        rating:
           type: number
           example: 0
 
-        comments: 
+        comments:
           type: number
           example: 0
 
@@ -581,7 +544,7 @@ components:
       type: object
 
       properties:
-        text: 
+        text:
           type: string
           example: Текст комментария
 
@@ -614,7 +577,7 @@ components:
         email:
           type: string
           example: test@mail.ru
-        
+
         name:
           type: string
           example: John Doe
@@ -627,6 +590,6 @@ components:
           type: string
           example: User
 
-        id: 
+        id:
           type: string
           example: 6524578b3e67fd0291b6996f

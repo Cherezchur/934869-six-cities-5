@@ -18,10 +18,6 @@ export abstract class BaseController implements Controller {
     this.router = Router();
   }
 
-  // get router() {
-  //   return this.router;
-  // }
-
   public addRoute(route: Route): void {
     const wrapperAsyncHandler = asyncHandler(route.handler.bind(this));
     const middlewareHandlers = route.middlewares?.map(
