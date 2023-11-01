@@ -6,6 +6,8 @@ import {
   UploadFileMiddleware,
   ValidateObjectIdMiddleware,
   ParseTokenMiddleware,
+  // DocumentExistsMiddleware,
+  PrivateRouteMiddleware,
 } from '../../libs/rest/index.js';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -15,7 +17,10 @@ import { Config, RestSchema } from '../../libs/config/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/common.js';
 import { Component } from '../../types/index.js';
+import { FavoriteOfferRequest } from '../offer/type/favorite-offer-request.type.js';
 import { AuthService } from '../auth/index.js';
+// import { OfferService } from '../offer/offer-service.interface.js';
+// import { UpdateUserDto } from './dto/update-user.dto.js';
 import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { CreateUserRequest } from './create-user-request.type.js';
@@ -27,9 +32,10 @@ import { LoginUserRequest } from './login-user-request.type.js';
 export class UserController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
-    @inject(Component.UserService) private readonly userServise: UserService,
+    @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.Config) private readonly configService: Config<RestSchema>,
-    @inject(Component.AuthService) private readonly authService: AuthService
+    @inject(Component.AuthService) private readonly authService: AuthService,
+    // @inject(Component.OfferService) private readonly offerService: OfferService,
   ) {
     super(logger);
     this.logger.info('Register routes for UserController...');
@@ -61,13 +67,22 @@ export class UserController extends BaseController {
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar')
       ]
     });
+    this.addRoute({
+      path: '/:userId/favorites',
+      method: HttpMethod.Put,
+      handler: this.markAsFavorite,
+      middlewares: [
+        new ParseTokenMiddleware(this.configService.get('JWT_SECRET')),
+        new PrivateRouteMiddleware(),
+      ]
+    });
   }
 
   public async create(
     { body }: CreateUserRequest,
     res: Response,
   ): Promise<void> {
-    const existUser = await this.userServise.findByEmail(body.email);
+    const existUser = await this.userService.findByEmail(body.email);
 
     if (existUser) {
       throw new HttpError(
@@ -77,7 +92,12 @@ export class UserController extends BaseController {
       );
     }
 
-    const result = await this.userServise.create(body, this.configService.get('SALT'));
+    const createUserBody = {
+      ...body,
+      favouriteOffers: []
+    };
+
+    const result = await this.userService.create(createUserBody, this.configService.get('SALT'));
     this.created(res, fillDTO(UserRdo, result));
   }
 
@@ -96,7 +116,7 @@ export class UserController extends BaseController {
 
   public async checkAuthenticate({ tokenPayload: { email }}: Request, res: Response) {
 
-    const foundedUser = await this.userServise.findByEmail(email);
+    const foundedUser = await this.userService.findByEmail(email);
 
     if(! foundedUser) {
       throw new HttpError(
@@ -113,5 +133,13 @@ export class UserController extends BaseController {
     this.created(res, {
       filepath: req.file?.path,
     });
+  }
+
+  public async markAsFavorite(
+    { body: { offerId, isFavorite }, tokenPayload: { email } }: FavoriteOfferRequest,
+    res: Response
+  ): Promise<void> {
+    const user = await this.userService.markAsFavorite(offerId, isFavorite, email);
+    this.ok(res, fillDTO(UserRdo, user));
   }
 }

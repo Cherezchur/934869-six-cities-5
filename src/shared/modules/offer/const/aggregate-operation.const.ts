@@ -17,6 +17,21 @@ const AGREGATE_OPERATIONS = {
       as: 'userId',
     }
   },
+  UNWIND_USERS_FAVOURITES: {
+    $unwind: {
+      path: '$users',
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  ADD_IS_FAVOURITES_FIELD: {
+    $addFields: {
+      id: { $toString: '$_id' },
+      favorites: '$user.favorites',
+      isFavourites: {
+        $in: ['$id', '$user.favorites']
+      }
+    }
+  },
   ADD_COMMENTS_INFO_FIELDS: {
     $addFields: {
       commentsCount: { $size: '$comments' },

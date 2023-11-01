@@ -1,15 +1,13 @@
-import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-import { PipelineStage } from 'mongoose';
+import mongoose, { PipelineStage } from 'mongoose';
 import {Types} from 'mongoose';
 
 import { DocumentType, types } from '@typegoose/typegoose';
 
 import { Logger } from '../../libs/logger/index.js';
-import { HttpError } from '../../libs/rest/index.js';
 import { Component } from '../../types/index.js';
-import { UserEntity } from '../user/user.entity.js';
-import AGREGATE_OPERATIONS from './const/comments-aggregate.const.js';
+// import { UserEntity } from '../user/index.js';
+import AGREGATE_OPERATIONS from './const/aggregate-operation.const.js';
 import { DEFAULT_OFFER_COUNT, DEFAULT_PREMIUM_OFFER_COUNT} from './const/offer.constant.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
@@ -21,17 +19,10 @@ export class DefaultOfferService implements OfferService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
-    @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>,
+    // @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>,
   ) {}
 
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
-    await this.offerModel.deleteMany();
-    const user = await this.userModel.findById(dto.userId);
-
-    if (!user) {
-      throw new HttpError(StatusCodes.BAD_REQUEST, 'Some user not exist', 'DefaultUserService');
-    }
-
     const result = await this.offerModel.create(dto);
 
     this.logger.info(`New offer created: ${dto.title}`);
@@ -109,6 +100,64 @@ export class DefaultOfferService implements OfferService {
     ];
 
     return this.offerModel.aggregate(pipeLine).exec();
+  }
+
+  public async findFavouritesByUserId(userId: string): Promise<DocumentType<OfferEntity>[]> {
+
+    // const user = await this.userModel.findById(userId);
+
+    const pipeline: PipelineStage[] = [
+      // {
+      //   $match: {
+      //     '_id': {
+      //       $in: user?.favorites
+      //     }
+      //   }
+      // },
+      {
+        $lookup: {
+          from: 'user',
+          as: 'thisUser',
+          pipeline: [
+            {
+              $match: {
+                '_id': {
+                  $eq: new mongoose.Types.ObjectId(userId)
+                }
+              }
+            },
+            {
+              $project: {
+                favourites: { $arrayElemAt: ['$thisUser.favorites', 0] },
+              }
+            },
+          ]
+        }
+      },
+      {
+        $addFields: {
+          id: { $toString: '$_id' },
+          favorites: '$thisUser.favorites',
+          isFavourites: {
+            $in: ['$_id', '$thisUser.favorites']
+          }
+        }
+      },
+      {
+        $unwind: {
+          path: '$user',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      // AGREGATE_OPERATIONS.UNWIND_USERS_FAVOURITES,
+      // AGREGATE_OPERATIONS.ADD_IS_FAVOURITES_FIELD,
+      AGREGATE_OPERATIONS.SORT_DOWN,
+      AGREGATE_OPERATIONS.COMMENTS_LOOKUP,
+      AGREGATE_OPERATIONS.ADD_COMMENTS_INFO_FIELDS,
+      AGREGATE_OPERATIONS.DELETE_COMMENTS_FIELD
+    ];
+
+    return this.offerModel.aggregate(pipeline).exec();
   }
 
   public async exists(documentId: string): Promise<boolean> {

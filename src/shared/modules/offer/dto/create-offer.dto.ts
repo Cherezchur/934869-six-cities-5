@@ -23,10 +23,10 @@ export class CreateOfferDto {
   @MaxLength(256, { each: true, message: 'Too short for field «image»' })
   public images: string[];
 
-  @IsBoolean({ message: 'is not a biilean value' })
+  @IsBoolean({ message: 'is not a boolean value' })
   public isPremium: boolean;
 
-  @IsBoolean({ message: 'is not a biilean value' })
+  @IsBoolean({ message: 'is not a boolean value' })
   public isFavourites: boolean;
 
   @IsEnum(HousingType, { message: 'type must be housing type' })
