@@ -1,14 +1,6 @@
 import { SortType } from '../../../types/sort-type.enum.js';
 
 const AGREGATE_OPERATIONS = {
-  COMMENTS_LOOKUP: {
-    $lookup: {
-      from: 'comments',
-      localField: '_id',
-      foreignField: 'offerId',
-      as: 'comments'
-    }
-  },
   USER_LOOKUP: {
     $lookup: {
       from: 'user',
@@ -17,19 +9,27 @@ const AGREGATE_OPERATIONS = {
       as: 'userId',
     }
   },
-  UNWIND_USERS_FAVOURITES: {
+  UNWIND_USER: {
     $unwind: {
-      path: '$users',
-      preserveNullAndEmptyArrays: true
+      path: '$userId',
+      preserveNullAndEmptyArrays: true,
     }
   },
   ADD_IS_FAVOURITES_FIELD: {
     $addFields: {
       id: { $toString: '$_id' },
-      favorites: '$user.favorites',
+      favorites: '$thisUser.favorites',
       isFavourites: {
-        $in: ['$id', '$user.favorites']
+        $in: ['$id', '$thisUser.favorites']
       }
+    }
+  },
+  COMMENTS_LOOKUP: {
+    $lookup: {
+      from: 'comments',
+      localField: '_id',
+      foreignField: 'offerId',
+      as: 'comments'
     }
   },
   ADD_COMMENTS_INFO_FIELDS: {
@@ -40,12 +40,6 @@ const AGREGATE_OPERATIONS = {
   },
   DELETE_COMMENTS_FIELD:{
     $unset: 'comments'
-  },
-  UNWIND_USER: {
-    $unwind: {
-      path: '$userId',
-      preserveNullAndEmptyArrays: true,
-    }
   },
   SORT_DOWN: {
     $sort: { createdDate: SortType.Down }

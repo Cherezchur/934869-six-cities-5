@@ -1,6 +1,7 @@
 # Предложения
 ## Получить список предложений
 GET http://localhost:5000/offers HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTmV3IFVTZXIiLCJlbWFpbCI6Im5ld1VzZXJAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlVzZXIiLCJpZCI6IjY1NDI0NzU1NGY4OWI0MTk3YzdkOGY1OCIsImlhdCI6MTY5ODg0MjQ1OCwiZXhwIjoxNjk5MDE1MjU4fQ.QkxotG1YGXDAS1RLIRXy0f7JQSNnMTSjzObK1j5RVik
 
 ###
 
@@ -39,7 +40,8 @@ Content-Type: application/json
 ###
 
 ## Получить объявление по идентификатору
-GET http://localhost:5000/offers/6540fa58af15260c75d27260 HTTP/1.1
+GET http://localhost:5000/offers/654263742fa5719801084195 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTmV3IFVTZXIiLCJlbWFpbCI6Im5ld1VzZXJAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlVzZXIiLCJpZCI6IjY1NDI0NzU1NGY4OWI0MTk3YzdkOGY1OCIsImlhdCI6MTY5ODg0MjQ1OCwiZXhwIjoxNjk5MDE1MjU4fQ.QkxotG1YGXDAS1RLIRXy0f7JQSNnMTSjzObK1j5RVik
 
 ###
 

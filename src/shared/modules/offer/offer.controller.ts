@@ -34,7 +34,14 @@ export class OfferController extends BaseController {
 
     this.logger.info('Register routes for OfferController..');
 
-    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Get,
+      handler: this.index,
+      middlewares: [
+        new ParseTokenMiddleware(this.configService.get('JWT_SECRET')),
+      ]
+    });
     this.addRoute({
       path: '/',
       method: HttpMethod.Post,
@@ -50,6 +57,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Get,
       handler: this.show,
       middlewares: [
+
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
@@ -100,8 +108,8 @@ export class OfferController extends BaseController {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find(DEFAULT_OFFER_COUNT);
+  public async index({ tokenPayload: { id }}: Request, res: Response): Promise<void> {
+    const offers = await this.offerService.find(DEFAULT_OFFER_COUNT, id);
     this.ok(res, fillDTO(OfferRdo, offers));
   }
 

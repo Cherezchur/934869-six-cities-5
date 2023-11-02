@@ -1,12 +1,15 @@
 import { inject, injectable } from 'inversify';
-import mongoose, { PipelineStage } from 'mongoose';
+
+import
+// mongoose,
+{ PipelineStage } from 'mongoose';
 import {Types} from 'mongoose';
 
 import { DocumentType, types } from '@typegoose/typegoose';
 
 import { Logger } from '../../libs/logger/index.js';
 import { Component } from '../../types/index.js';
-// import { UserEntity } from '../user/index.js';
+import { UserEntity } from '../user/index.js';
 import AGREGATE_OPERATIONS from './const/aggregate-operation.const.js';
 import { DEFAULT_OFFER_COUNT, DEFAULT_PREMIUM_OFFER_COUNT} from './const/offer.constant.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
@@ -19,7 +22,7 @@ export class DefaultOfferService implements OfferService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
-    // @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>,
+    @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>,
   ) {}
 
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
@@ -30,12 +33,21 @@ export class DefaultOfferService implements OfferService {
     return result;
   }
 
-  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+  public async find(count?: number, userId?: string): Promise<DocumentType<OfferEntity>[]> {
 
     const limit = { $limit: count ?? DEFAULT_OFFER_COUNT };
+    const activeUser = await this.userModel.findById(userId);
+    const favourites = activeUser?.favorites;
 
     const pipeLine: PipelineStage[] = [
       limit,
+      {
+        $addFields: {
+          isFavourites: {
+            $in: ['$_id', favourites]
+          }
+        }
+      },
       AGREGATE_OPERATIONS.SORT_DOWN,
       AGREGATE_OPERATIONS.COMMENTS_LOOKUP,
       AGREGATE_OPERATIONS.ADD_COMMENTS_INFO_FIELDS,
@@ -104,53 +116,24 @@ export class DefaultOfferService implements OfferService {
 
   public async findFavouritesByUserId(userId: string): Promise<DocumentType<OfferEntity>[]> {
 
-    // const user = await this.userModel.findById(userId);
+    const activeUser = await this.userModel.findById(userId);
+    const favourites = activeUser?.favorites;
 
     const pipeline: PipelineStage[] = [
-      // {
-      //   $match: {
-      //     '_id': {
-      //       $in: user?.favorites
-      //     }
-      //   }
-      // },
       {
-        $lookup: {
-          from: 'user',
-          as: 'thisUser',
-          pipeline: [
-            {
-              $match: {
-                '_id': {
-                  $eq: new mongoose.Types.ObjectId(userId)
-                }
-              }
-            },
-            {
-              $project: {
-                favourites: { $arrayElemAt: ['$thisUser.favorites', 0] },
-              }
-            },
-          ]
-        }
-      },
-      {
-        $addFields: {
-          id: { $toString: '$_id' },
-          favorites: '$thisUser.favorites',
-          isFavourites: {
-            $in: ['$_id', '$thisUser.favorites']
+        $match: {
+          '_id': {
+            $in: activeUser?.favorites
           }
         }
       },
       {
-        $unwind: {
-          path: '$user',
-          preserveNullAndEmptyArrays: true
+        $addFields: {
+          isFavourites: {
+            $in: ['$_id', favourites]
+          }
         }
       },
-      // AGREGATE_OPERATIONS.UNWIND_USERS_FAVOURITES,
-      // AGREGATE_OPERATIONS.ADD_IS_FAVOURITES_FIELD,
       AGREGATE_OPERATIONS.SORT_DOWN,
       AGREGATE_OPERATIONS.COMMENTS_LOOKUP,
       AGREGATE_OPERATIONS.ADD_COMMENTS_INFO_FIELDS,

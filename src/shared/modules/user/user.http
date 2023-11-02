@@ -48,12 +48,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTGVicm9uZSBGaXJzdCIsImVtY
 
 ## Добавить или удалить объявление из избранного
 
-PUT http://localhost:5000/users/654247554f89b4197c7d8f58/favorites HTTP/1.1
+PUT http://localhost:5000/users/654263742fa5719801084195/favorites HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTmV3IFVTZXIiLCJlbWFpbCI6Im5ld1VzZXJAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlVzZXIiLCJpZCI6IjY1NDI0NzU1NGY4OWI0MTk3YzdkOGY1OCIsImlhdCI6MTY5ODg0MjQ1OCwiZXhwIjoxNjk5MDE1MjU4fQ.QkxotG1YGXDAS1RLIRXy0f7JQSNnMTSjzObK1j5RVik
 Content-Type: application/json
 
 {
-  "isFavorite": false,
+  "isFavorite": true,
   "offerId": "654263742fa5719801084195"
 }
 
