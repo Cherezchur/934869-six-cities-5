@@ -11,9 +11,6 @@ export class CreateUserDto {
   @IsEmail({}, { message: 'email must be a valid address'})
   public email: string;
 
-  @IsString({ message: 'avatarPath is required' })
-  public avatarPath: string;
-
   @IsEnum(UserType, { message: 'type must be user type' })
   public userType: UserType;
 

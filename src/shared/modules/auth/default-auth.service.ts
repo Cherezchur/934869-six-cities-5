@@ -4,7 +4,7 @@ import * as crypto from 'node:crypto';
 
 import { Config, RestSchema } from '../../libs/config/index.js';
 import { Logger } from '../../libs/logger/index.js';
-import { Component } from '../../types/components.enum.js';
+import { Component } from '../../types/component.enum.js';
 import { LoginUserDto, UserEntity, UserService } from '../user/index.js';
 import { UserNotFoundException, UserPasswordIncorrectException } from './errors/index.js';
 import { TokenPayload } from './types/token-payload.type.js';
