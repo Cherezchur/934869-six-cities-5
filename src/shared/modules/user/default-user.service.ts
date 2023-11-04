@@ -10,7 +10,7 @@ import { Component } from '../../types/index.js';
 // import { FavoriteOfferRequest } from '../offer/type/favorite-offer-request.type.js';
 import { OfferEntity } from '../offer/index.js';
 // import { UpdateUserDto } from './dto/update-user.dto.js';
-import { CreateUserDto, UpdateUserDto } from './index.js';
+import { CreateUserDto, DEFAULT_AVATAR_FILE_NAME, UpdateUserDto } from './index.js';
 import { UserService } from './user-service.interface.js';
 import { UserEntity } from './user.entity.js';
 
@@ -23,7 +23,7 @@ export class DefaultUserService implements UserService {
   ) {}
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
-    const user = new UserEntity(dto);
+    const user = new UserEntity({ ...dto, avatarPath: DEFAULT_AVATAR_FILE_NAME });
     user.setPassword(dto.password, salt);
 
     const result = await this.userModel.create(user);

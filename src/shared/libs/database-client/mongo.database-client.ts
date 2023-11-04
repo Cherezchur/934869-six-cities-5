@@ -2,7 +2,7 @@ import * as Mongoose from 'mongoose';
 import { inject, injectable } from 'inversify';
 import { setTimeout } from 'node:timers/promises';
 import { DatabaseClient } from './database-client.interface.js';
-import { Component } from '../../types/components.enum.js';
+import { Component } from '../../types/component.enum.js';
 import { Logger } from '../logger/index.js';
 import { RETRY } from './const.js';
 
