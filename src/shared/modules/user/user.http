@@ -5,9 +5,9 @@ POST http://localhost:5000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "mrAnderson@mail.net",
-  "avatarPath": "mrAnderson.png",
-  "name": "Neo",
+  "email": "rick-sanches@mail.net",
+  "avatarPath": "sanches.png",
+  "name": "Rick S",
   "password": "12345678",
   "userType": "Pro"
 }
@@ -20,7 +20,7 @@ POST http://localhost:5000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "mrAnderson@mail.net",
+  "email": "rick-sanches@mail.net",
   "password": "12345678"
 }
 
@@ -34,14 +34,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTmVvIiwiZW1haWwiOiJtckFuZ
 
 ## Отправить изображение
 
-POST http://localhost:5000/users/62823cb2c5a64ce9f1b50eb6/avatar HTTP/1.1
+POST http://localhost:5000/users/6547d2863fc8ccc471efaa4e/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="avatar"; filename="screen.png"
 Content-Type: image/png
 
-< E:\picture\LlB_Hkf9LsU.jpg
+< E:\picture\Rick_Sanchez.webp
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###

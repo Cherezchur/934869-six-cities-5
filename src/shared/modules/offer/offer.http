@@ -66,7 +66,7 @@ Content-Type: application/json
 ###
 
 ## Получить комментарии к объявлению
-GET http://localhost:5000/offers/652466b0b9e6a61f32d09690/comments HTTP/1.1
+GET http://localhost:5000/offers/654263742fa5719801084195/comments HTTP/1.1
 
 ###
 
@@ -77,6 +77,6 @@ GET http://localhost:5000/offers/premium/Brussels HTTP/1.1
 
 ## Получить избранные предложения пользователя
 GET http://localhost:5000/offers/bundles/favorites HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTmV3IFVTZXIiLCJlbWFpbCI6Im5ld1VzZXJAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlVzZXIiLCJpZCI6IjY1NDI0NzU1NGY4OWI0MTk3YzdkOGY1OCIsImlhdCI6MTY5ODg0MjQ1OCwiZXhwIjoxNjk5MDE1MjU4fQ.QkxotG1YGXDAS1RLIRXy0f7JQSNnMTSjzObK1j5RVik
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTmVvIiwiZW1haWwiOiJtckFuZGVyc29uQG1haWwubmV0IiwidXNlclR5cGUiOiJQcm8iLCJpZCI6IjY1NDVlZWQ1N2RmOWUzZDMzOTk3NzRiOCIsImlhdCI6MTY5OTA4MjIxNiwiZXhwIjoxNjk5MjU1MDE2fQ.WvOI06Gyi3AlCw0-rKONnyz15O9O044HXw_W_DH7QGM
 
 ###
