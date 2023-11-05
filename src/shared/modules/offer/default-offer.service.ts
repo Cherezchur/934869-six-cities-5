@@ -1,8 +1,5 @@
 import { inject, injectable } from 'inversify';
-
-import
-// mongoose,
-{ PipelineStage } from 'mongoose';
+import { PipelineStage } from 'mongoose';
 import {Types} from 'mongoose';
 
 import { DocumentType, types } from '@typegoose/typegoose';
@@ -36,18 +33,37 @@ export class DefaultOfferService implements OfferService {
   public async find(count?: number, userId?: string): Promise<DocumentType<OfferEntity>[]> {
 
     const limit = { $limit: count ?? DEFAULT_OFFER_COUNT };
-    const activeUser = await this.userModel.findById(userId);
-    const favourites = activeUser?.favorites;
+    let isFavourutesPipeline: PipelineStage;
+
+    if(userId !== '') {
+      const activeUser = await this.userModel.findById(userId);
+      isFavourutesPipeline = {
+        $addFields: {
+          isFavourites: {
+            $in: ['$_id', activeUser?.favorites]
+          }
+        }
+      };
+    } else {
+      isFavourutesPipeline = {
+        $addFields: {
+          isFavourites: {
+            $in: ['$_id', []]
+          }
+        }
+      };
+    }
 
     const pipeLine: PipelineStage[] = [
       limit,
-      {
-        $addFields: {
-          isFavourites: {
-            $in: ['$_id', favourites]
-          }
-        }
-      },
+      isFavourutesPipeline,
+      // {
+      //   $addFields: {
+      //     isFavourites: {
+      //       $in: ['$_id', favourites]
+      //     }
+      //   }
+      // },
       AGREGATE_OPERATIONS.SORT_DOWN,
       AGREGATE_OPERATIONS.COMMENTS_LOOKUP,
       AGREGATE_OPERATIONS.ADD_COMMENTS_INFO_FIELDS,

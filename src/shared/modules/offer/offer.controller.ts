@@ -108,7 +108,11 @@ export class OfferController extends BaseController {
     });
   }
 
-  public async index({ tokenPayload: { id }}: Request, res: Response): Promise<void> {
+  public async index(body: Request, res: Response): Promise<void> {
+    let id = '';
+    if(body.tokenPayload) {
+      id = body.tokenPayload.id;
+    }
     const offers = await this.offerService.find(DEFAULT_OFFER_COUNT, id);
     this.ok(res, fillDTO(OfferRdo, offers));
   }

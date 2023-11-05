@@ -68,7 +68,7 @@ export class UserController extends BaseController {
       ]
     });
     this.addRoute({
-      path: '/:userId/favorites',
+      path: '/favorites',
       method: HttpMethod.Put,
       handler: this.markAsFavorite,
       middlewares: [
