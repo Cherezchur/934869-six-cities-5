@@ -57,13 +57,6 @@ export class DefaultOfferService implements OfferService {
     const pipeLine: PipelineStage[] = [
       limit,
       isFavourutesPipeline,
-      // {
-      //   $addFields: {
-      //     isFavourites: {
-      //       $in: ['$_id', favourites]
-      //     }
-      //   }
-      // },
       AGREGATE_OPERATIONS.SORT_DOWN,
       AGREGATE_OPERATIONS.COMMENTS_LOOKUP,
       AGREGATE_OPERATIONS.ADD_COMMENTS_INFO_FIELDS,

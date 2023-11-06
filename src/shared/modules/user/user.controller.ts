@@ -6,7 +6,6 @@ import {
   UploadFileMiddleware,
   ValidateObjectIdMiddleware,
   ParseTokenMiddleware,
-  // DocumentExistsMiddleware,
   PrivateRouteMiddleware,
 } from '../../libs/rest/index.js';
 import { Request, Response } from 'express';
@@ -19,8 +18,6 @@ import { fillDTO } from '../../helpers/common.js';
 import { Component } from '../../types/index.js';
 import { FavoriteOfferRequest } from '../offer/type/favorite-offer-request.type.js';
 import { AuthService } from '../auth/index.js';
-// import { OfferService } from '../offer/offer-service.interface.js';
-// import { UpdateUserDto } from './dto/update-user.dto.js';
 import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
 import { UploadUserAvatarRdo } from './rdo/upload-user-avatar.rdo.js';
 import { UserRdo } from './rdo/user.rdo.js';
@@ -45,7 +42,7 @@ export class UserController extends BaseController {
       path: '/register',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateUserDto) ]
+      middlewares: [ new ValidateDtoMiddleware(CreateUserDto) ]
     });
     this.addRoute({
       path: '/login',
@@ -130,7 +127,7 @@ export class UserController extends BaseController {
     const { userId } = params;
     const uploadFile = { avatarPath: file?.filename };
     await this.userService.updateById(userId, uploadFile);
-    this.created(res, fillDTO(UploadUserAvatarRdo, { filepath: uploadFile.avatarPath }));
+    this.created(res, fillDTO(UploadUserAvatarRdo, { filePath: uploadFile.avatarPath }));
   }
 
   public async markAsFavorite(
