@@ -66,7 +66,7 @@ export class RestApplication {
     );
 
     this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
-    this.server.use(cors);
+    this.server.use(cors());
   }
 
   private async initExceptionFilters() {
