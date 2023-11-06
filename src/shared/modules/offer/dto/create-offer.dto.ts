@@ -16,12 +16,23 @@ export class CreateOfferDto {
   @IsEnum(Cities, { message: 'type must be Cities' })
   public city: Cities;
 
+  public previewImage: string;
+
   @IsArray({ message: 'Field categories must be an array' })
   @MaxLength(256, { each: true, message: 'Too short for field «image»' })
   public images: string[];
 
   @IsBoolean({ message: 'is not a boolean value' })
   public isPremium: boolean;
+
+  @IsBoolean({ message: 'is not a boolean value' })
+  public isFavourites: boolean;
+
+  @IsInt({ message: 'rating must be an integer' })
+  public rating: number;
+
+  @IsInt({ message: 'rating must be an integer' })
+  public commentsCount: number;
 
   @IsEnum(HousingType, { message: 'type must be housing type' })
   public housingType: HousingType;

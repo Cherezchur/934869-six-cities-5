@@ -19,7 +19,7 @@ export class DefaultUserService implements UserService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>,
-    @inject(Component.OfferModel) private readonly offerModel: types.ModelType<DocumentType<OfferEntity>>,
+    @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
   ) {}
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
