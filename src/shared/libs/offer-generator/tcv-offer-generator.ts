@@ -23,7 +23,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const isPremium = getRandomItem<boolean>([true, false]);
     const isFavorites = getRandomItem<boolean>([true, false]);
     const rating = generateRandomValue(OfferRating.MIN, OfferRating.MAX, 1);
-    const typeHousing = getRandomItem([HousingType.apartment,HousingType.hotel, HousingType.house, HousingType.room]);
+    const typeHousing = getRandomItem(Object.values(HousingType));
     const rooms = generateRandomValue(Rooms.MIN, Rooms.MAX);
     const guests = generateRandomValue(Guests.MIN, Guests.MAX);
     const price = generateRandomValue(Price.MIN, Price.MAX).toString();
