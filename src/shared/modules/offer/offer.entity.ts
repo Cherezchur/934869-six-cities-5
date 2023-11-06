@@ -33,8 +33,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public city!: Cities;
 
-  @prop({required: true})
-  public previewImage!: string;
+  @prop()
+  public previewImage: string;
 
   @prop({required: true, default: []})
   public images!: string[];
@@ -42,7 +42,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public isPremium!: boolean;
 
-  @prop({required: true})
+  @prop()
   public isFavourites!: boolean;
 
   @prop({required: true})

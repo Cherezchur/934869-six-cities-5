@@ -7,6 +7,7 @@ import {
   PrivateRouteMiddleware,
   ParseTokenMiddleware,
   AuthorshipVerificateMiddleware,
+  UploadFileMiddleware,
 } from '../../libs/rest/index.js';
 import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
@@ -16,7 +17,8 @@ import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/common.js';
 import { Component } from '../../types/index.js';
 import { CommentRdo, CommentService } from '../comment/index.js';
-import { DEFAULT_PREMIUM_OFFER_COUNT, DEFAULT_OFFER_COUNT } from './const/offer.constant.js';
+import { DEFAULT_PREMIUM_OFFER_COUNT, DEFAULT_OFFER_COUNT, DEFAULT_PREVIEW_IMAGE } from './const/offer.constant.js';
+import { UploadPreviewImageRdo } from './rdo/upload-preview-image.rdo.js';
 import { ParamOfferId, ParamCity, UpdateOfferDto } from './index.js';
 import { OfferRdo, FullOfferRdo } from './index.js';
 import { CreateOfferDto } from './index.js';
@@ -106,6 +108,17 @@ export class OfferController extends BaseController {
         new PrivateRouteMiddleware(),
       ]
     });
+    this.addRoute({
+      path: '/:offerId/offerPreview',
+      method: HttpMethod.Post,
+      handler: this.uploadPreviewImage,
+      middlewares: [
+        new ParseTokenMiddleware(this.configService.get('JWT_SECRET')),
+        new PrivateRouteMiddleware(),
+        new AuthorshipVerificateMiddleware(this.offerService, 'offerId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'previewImage')
+      ]
+    });
   }
 
   public async index(body: Request, res: Response): Promise<void> {
@@ -121,7 +134,12 @@ export class OfferController extends BaseController {
     { body, tokenPayload }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
     res: Response
   ): Promise<void> {
-    const result = await this.offerService.create({ ...body, userId: tokenPayload.id });
+    const bodyWithDefaultValues = {
+      ...body,
+      isFavourites: false,
+      previewImage: DEFAULT_PREVIEW_IMAGE
+    };
+    const result = await this.offerService.create({ ...bodyWithDefaultValues, userId: tokenPayload.id });
     const offer = await this.offerService.findById(result.id);
     this.created(res, fillDTO(FullOfferRdo, offer));
   }
@@ -155,5 +173,12 @@ export class OfferController extends BaseController {
   public async getFavourites({ tokenPayload }: Request, res: Response): Promise<void> {
     const favouriteOffers = await this.offerService.findFavouritesByUserId(tokenPayload.id);
     this.ok(res, fillDTO(OfferRdo, favouriteOffers));
+  }
+
+  public async uploadPreviewImage({ params, file }: Request, res: Response): Promise<void> {
+    const { offerId } = params;
+    const uploadFile = { previewImage: file?.filename };
+    await this.offerService.updateById(offerId, uploadFile);
+    this.created(res, fillDTO(UploadPreviewImageRdo, { filePath: uploadFile.previewImage }));
   }
 }

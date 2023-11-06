@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "email": "rick-sanches@mail.net",
-  "avatarPath": "sanches.png",
+  "avatar": "sanches.png",
   "name": "Rick S",
   "password": "12345678",
   "userType": "Pro"
@@ -34,7 +34,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTmVvIiwiZW1haWwiOiJtckFuZ
 
 ## Отправить изображение
 
-POST http://localhost:5000/users/6547d2863fc8ccc471efaa4e/avatar HTTP/1.1
+POST http://localhost:5000/users/6548b9e8dbc0b2fe86229788/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW

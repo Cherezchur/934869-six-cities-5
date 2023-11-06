@@ -21,7 +21,7 @@ export class AuthorshipVerificateMiddleware implements Middleware {
     if (id !== documentUserId) {
       throw new HttpError(
         StatusCodes.FORBIDDEN,
-        'Is npt the author',
+        'Is not the author',
         'AuthenticateMiddleware'
       );
     }
