@@ -1,11 +1,10 @@
 import got from 'got';
 
-import { Command } from './command.interface.js';
-import { MockServerData } from '../../shared/types/mock-server-data.type.js';
-import { TSVOfferGenerator } from '../../shared/libs/offer-generator/index.js';
-
-import { getErrorMessage } from '../../shared/helpers/index.js';
 import { TSVFileWriter } from '../../shared/libs/file-writer/index.js';
+import { TSVOfferGenerator } from '../../shared/libs/offer-generator/index.js';
+import { getErrorMessage } from '../../shared/helpers/index.js';
+import { MockServerData } from '../../shared/types/mock-server-data.type.js';
+import { Command } from './command.interface.js';
 
 export class GenerateCommand implements Command {
   private initialData: MockServerData;
@@ -35,8 +34,6 @@ export class GenerateCommand implements Command {
     const [count, filepath, url] = parameters;
     const offerCount = Number.parseInt(count, 10);
 
-    // Код для получения данных с сервера.
-    // Формирование объявлений.
     try {
       await this.load(url);
       await this.write(filepath, offerCount);

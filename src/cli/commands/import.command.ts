@@ -1,15 +1,16 @@
 import chalk from 'chalk';
-import { Command } from './command.interface.js';
-import { TSVFileReader } from '../../shared/libs/file-reader/tsv-file-reader.js';
-import { createOffer, getErrorMessage, getMongoURI } from '../../shared/helpers/index.js';
-import { UserService } from '../../shared/modules/user/user-service.interface.js';
-import { DefaultOfferService, OfferModel, OfferService } from '../../shared/modules/offer/index.js';
+
 import { DatabaseClient, MongoDatabaseClient } from '../../shared/libs/database-client/index.js';
-import { Logger } from '../../shared/libs/logger/index.js';
+import { TSVFileReader } from '../../shared/libs/file-reader/tsv-file-reader.js';
 import { ConsoleLogger } from '../../shared/libs/logger/console.logger.js';
+import { Logger } from '../../shared/libs/logger/index.js';
+import { DefaultOfferService, OfferModel, OfferService } from '../../shared/modules/offer/index.js';
 import { DefaultUserService, UserModel } from '../../shared/modules/user/index.js';
-import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './commands.contant.js';
+import { UserService } from '../../shared/modules/user/user-service.interface.js';
+import { createOffer, getErrorMessage, getMongoURI } from '../../shared/helpers/index.js';
 import { Offer } from '../../shared/types/index.js';
+import { Command } from './command.interface.js';
+import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './commands.contant.js';
 
 export class ImportCommand implements Command {
   private userService: UserService;
@@ -23,8 +24,8 @@ export class ImportCommand implements Command {
     this.onCompleteImport = this.onCompleteImport.bind(this);
 
     this.logger = new ConsoleLogger();
-    this.offerService = new DefaultOfferService(this.logger, OfferModel);
-    this.userService = new DefaultUserService(this.logger, UserModel);
+    this.offerService = new DefaultOfferService(this.logger, OfferModel, UserModel);
+    this.userService = new DefaultUserService(this.logger, UserModel, OfferModel);
     this.databaseClient = new MongoDatabaseClient(this.logger);
   }
 
@@ -56,6 +57,7 @@ export class ImportCommand implements Command {
       isPremium: offer.isPremium,
       isFavourites: offer.isFavourites,
       rating: offer.rating,
+      commentsCount: offer.comments,
       housingType: offer.housingType,
       rooms: offer.rooms,
       guestsNumber: offer.guestsNumber,
