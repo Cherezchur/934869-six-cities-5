@@ -28,8 +28,8 @@ export class CreateOfferDto {
   @IsBoolean({ message: 'is not a boolean value' })
   public isFavourites: boolean;
 
-  // @IsInt({ message: 'rating must be an integer' })
-  // public rating: number;
+  @IsInt({ message: 'rating must be an integer' })
+  public rating: number;
 
   @IsInt({ message: 'rating must be an integer' })
   public commentsCount: number;
