@@ -1,0 +1,95 @@
+# Предложения
+## Получить список предложений
+GET http://localhost:5000/offers HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5Mjk2ODk2LCJleHAiOjE2OTk0Njk2OTZ9.738IDlUAWkpnP17IfY709DwbJ47LVVvZasSYcpRACko
+
+###
+
+## Добавить новое предложение
+POST http://localhost:5000/offers HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5MjY2MTk2LCJleHAiOjE2OTk0Mzg5OTZ9.MBhKjgGwxJTT4f-rQg4niLWNRCuj3ONPepjHrQZxjjQ
+Content-Type: application/json
+
+{
+  "title": "Гараж Рика",
+  "description": "Научные лаборатории, приключения. В самом доме приживает семья. Тихие люди...",
+  "createdDate": "2023-09-23T16:17:26.406Z",
+  "city": "Brussels",
+  "images": [
+    "e:\flat design onix",
+    "loft-hell-2.jpg",
+    "loft-hell-3.jpg"
+  ],
+  "isPremium": true,
+  "rating": 0,
+  "housingType": "apartment",
+  "rooms": 5,
+  "guestsNumber": 10,
+  "price": 123,
+  "comfort": [
+    "Air conditioning",
+    "Laptop friendly workspace",
+    "Fridge"
+  ],
+  "coordinates": ["48.85661", "2.351499"]
+}
+
+
+###
+
+## Получить объявление по идентификатору
+GET http://localhost:5000/offers/6548cb77acdbdc41ed4a1e59 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5MjY2MTk2LCJleHAiOjE2OTk0Mzg5OTZ9.MBhKjgGwxJTT4f-rQg4niLWNRCuj3ONPepjHrQZxjjQ
+
+###
+
+## Удалить объявление по идентификатору
+DELETE http://localhost:5000/offers/6540ad1fd8e6f337ea72d15c HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTGVicm9uZSBGaXJzdCIsImVtYWlsIjoibGViTEFAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjUzZjczNjAwMDQ1NWY2MWViNzIzY2FmIiwiaWF0IjoxNjk4NzM0MzE1LCJleHAiOjE2OTg5MDcxMTV9.zAo16oVUNMpcvrlCZQJOhRL7Eg2CiZmWnOtyo-egk3M
+
+###
+
+## Обновить объявление
+
+PATCH http://localhost:5000/offers/6540ad1fd8e6f337ea72d15c HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTGVicm9uZSBGaXJzdCIsImVtYWlsIjoibGViTEFAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjUzZjczNjAwMDQ1NWY2MWViNzIzY2FmIiwiaWF0IjoxNjk4NzM0MzE1LCJleHAiOjE2OTg5MDcxMTV9.zAo16oVUNMpcvrlCZQJOhRL7Eg2CiZmWnOtyo-egk3M
+Content-Type: application/json
+
+{
+  "city": "Paris",
+  "price": 1200,
+  "isPremium": true
+}
+
+###
+
+## Получить комментарии к объявлению
+GET http://localhost:5000/offers/654263742fa5719801084195/comments HTTP/1.1
+
+###
+
+## Получить премиальные предложения по городу
+GET http://localhost:5000/offers/premium/Brussels HTTP/1.1
+
+###
+
+## Получить избранные предложения пользователя
+GET http://localhost:5000/offers/bundles/favorites HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiTmVvIiwiZW1haWwiOiJtckFuZGVyc29uQG1haWwubmV0IiwidXNlclR5cGUiOiJQcm8iLCJpZCI6IjY1NDVlZWQ1N2RmOWUzZDMzOTk3NzRiOCIsImlhdCI6MTY5OTA4MjIxNiwiZXhwIjoxNjk5MjU1MDE2fQ.WvOI06Gyi3AlCw0-rKONnyz15O9O044HXw_W_DH7QGM
+
+###
+
+## Отправить превью объявления
+
+POST http://localhost:5000/offers/6548cb77acdbdc41ed4a1e59/offerPreview HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5MjY2MTk2LCJleHAiOjE2OTk0Mzg5OTZ9.MBhKjgGwxJTT4f-rQg4niLWNRCuj3ONPepjHrQZxjjQ
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="previewImage"; filename="screen.png"
+Content-Type: image/png
+
+< E:\flat_design_onix\f9e5df51a5050b4685bf700d02614ccc.webp
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
