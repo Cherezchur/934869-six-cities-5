@@ -2,12 +2,12 @@ import type { FormEvent, MouseEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import type { CityName, UserRegister } from '../../types/types';
-import { useAppDispatch } from '../../hooks';
-import { registerUser } from '../../store/action';
-import { getRandomElement } from '../../utils';
-import { AppRoute, CITIES, UserType } from '../../const';
 import { setCity } from '../../store/site-process/site-process';
+import { registerUser } from '../../store/action';
+import type { CityName, UserRegister } from '../../types/types';
+import { AppRoute, CITIES, UserType } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { getRandomElement } from '../../utils';
 
 const Register = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ const Register = (): JSX.Element => {
     const formData = new FormData(form) as Iterable<[UserRegister]>;
     const data = Object.fromEntries(formData);
 
-    data.type = data.isPro ? UserType.Pro : UserType.Regular;
+    data.type = data.isPro ? UserType.Pro : UserType.User;
     delete data.isPro;
     dispatch(registerUser(data));
   };

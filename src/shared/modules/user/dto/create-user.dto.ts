@@ -12,7 +12,7 @@ export class CreateUserDto {
   public email: string;
 
   @IsEnum(UserType, { message: 'type must be user type' })
-  public userType: UserType;
+  public type: UserType;
 
   @IsString({ message: 'password is required' })
   @Length(6, 12, { message: `min length for password is ${PASSWORD_VALIDATE_LENGHT.MIN}, max is ${PASSWORD_VALIDATE_LENGHT.MAX}` })

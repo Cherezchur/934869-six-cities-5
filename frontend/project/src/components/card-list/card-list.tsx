@@ -37,8 +37,6 @@ const CardList = (): JSX.Element => {
     return <Spinner />;
   }
 
-  console.log('offers wuth main page', offers);
-
   return (
     <div className={`cities__places-container container${isEmpty ? ' cities__places-container page__main--index-empty' : ''}`}>
       {isEmpty ? <CardListEmpty city={activeCity.name} /> : (

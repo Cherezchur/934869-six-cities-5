@@ -1,48 +1,5 @@
-import { CityName, Type } from '../../types/types';
+import { Type } from '../../types/types';
 import { UserType } from '../../const';
-
-// enum Cities {
-//   Paris = 'Paris',
-//   Cologne = 'Cologne',
-//   Brussels = 'Brussels',
-//   Amsterdam = 'Amsterdam',
-//   Hamburg = 'Hamburg',
-//   Dusseldorf = 'Dusseldorf',
-// }
-
-export type Location = {
-  latitude: number;
-  longitude: number;
-};
-
-export type City = {
-  name: CityName;
-  location: Location;
-};
-
-export type User = {
-  name: string;
-  avatarUrl: string;
-  type: UserType;
-  email: string;
-};
-
-// enum HousingType {
-//   apartment = 'apartment',
-//   house = 'house',
-//   room = 'room',
-//   hotel = 'hotel'
-// }
-
-// enum Comfort {
-//   'Breakfast' = 'Breakfast',
-//   'Air conditioning' = 'Air conditioning',
-//   'Laptop friendly workspace' = 'Laptop friendly workspace',
-//   'Baby seat' = 'Baby seat',
-//   'Washer' = 'Washer',
-//   'Towels' = 'Towels',
-//   'Fridge' = 'Fridge',
-// }
 
 export default class FullOfferDto {
   public id!: string;
@@ -77,5 +34,10 @@ export default class FullOfferDto {
 
   public coordinates!: number[];
 
-  public user!: User;
+  public user!: {
+    avatarPath: string,
+    email: string,
+    name: string,
+    userType: UserType
+  };
 }

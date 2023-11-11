@@ -59,7 +59,6 @@ export class OfferController extends BaseController {
       method: HttpMethod.Get,
       handler: this.show,
       middlewares: [
-
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
@@ -139,11 +138,12 @@ export class OfferController extends BaseController {
   ): Promise<void> {
     const bodyWithDefaultValues = {
       ...body,
-      isFavourites: false,
       previewImage: DEFAULT_PREVIEW_IMAGE
     };
     const result = await this.offerService.create({ ...bodyWithDefaultValues, userId: tokenPayload.id });
     const offer = await this.offerService.findById(result.id);
+    console.log('OFFER', offer);
+    console.log('RDO', fillDTO(FullOfferRdo, offer));
     this.created(res, fillDTO(FullOfferRdo, offer));
   }
 

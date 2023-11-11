@@ -1,6 +1,6 @@
 export class UpdateUserDto {
   public avatarPath?: string;
   public name?: string;
-  public userType?: string;
+  public type?: string;
   public favorites?: string[];
 }

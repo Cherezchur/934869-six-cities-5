@@ -4,7 +4,7 @@ import { HousingType, Cities, Comfort } from '../../../types/index.js';
 import { UserRdo } from '../../user/index.js';
 
 export class FullOfferRdo {
-  @Expose({ name: '_id'})
+  @Expose()
   public id: string;
 
   @Expose()

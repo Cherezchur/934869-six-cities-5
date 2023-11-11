@@ -4,6 +4,9 @@ import { UserType } from '../../../types/userType.enum.js';
 
 export class UserRdo {
   @Expose()
+  public id: string;
+
+  @Expose()
   public name: string;
 
   @Expose()
@@ -13,5 +16,5 @@ export class UserRdo {
   public avatarPath: string;
 
   @Expose()
-  public userType: UserType;
+  public type: UserType;
 }

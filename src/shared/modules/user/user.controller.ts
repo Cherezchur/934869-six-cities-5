@@ -95,7 +95,10 @@ export class UserController extends BaseController {
     };
 
     const result = await this.userService.create(createUserBody, this.configService.get('SALT'));
-    this.created(res, fillDTO(UserRdo, result));
+    console.log('result', result);
+    const user = await this.userService.findByEmailWithId(result.email);
+    console.log('user', user);
+    this.created(res, fillDTO(UserRdo, user));
   }
 
   public async login(

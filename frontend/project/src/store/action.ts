@@ -40,22 +40,22 @@ export const fetchOffers = createAsyncThunk<FullOfferDto[], undefined, { extra: 
     return data;
   });
 
-export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, { extra: Extra }>(
+export const fetchFavoriteOffers = createAsyncThunk<FullOfferDto[], undefined, { extra: Extra }>(
   Action.FETCH_FAVORITE_OFFERS,
   async (_, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Offer[]>(ApiRoute.Favorite);
+    const { data } = await api.get<FullOfferDto[]>(ApiRoute.Favorite);
 
     return data;
   });
 
-export const fetchOffer = createAsyncThunk<Offer, Offer['id'], { extra: Extra }>(
+export const fetchOffer = createAsyncThunk<FullOfferDto, Offer['id'], { extra: Extra }>(
   Action.FETCH_OFFER,
   async (id, { extra }) => {
     const { api, history } = extra;
 
     try {
-      const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${id}`);
+      const { data } = await api.get<FullOfferDto>(`${ApiRoute.Offers}/${id}`);
 
       return data;
     } catch (error) {
@@ -170,7 +170,7 @@ export const registerUser = createAsyncThunk<void, UserRegister, { extra: Extra 
     if (avatar) {
       const payload = new FormData();
       payload.append('avatar', avatar);
-      await api.post(`/${data.id}${ApiRoute.Avatar}`, payload, {
+      await api.post(`/users/${data.id}${ApiRoute.Avatar}`, payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
     }

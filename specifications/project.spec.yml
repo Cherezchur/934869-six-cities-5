@@ -199,7 +199,7 @@ paths:
         "404":
           description: Предложений по указанному городу не найдено, либо название города указано неверно
 
-  /offers/favorites:
+  /offers/bundles/favorites:
 
     get:
         tags:

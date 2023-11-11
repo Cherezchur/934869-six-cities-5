@@ -25,7 +25,7 @@ export class DefaultAuthService implements AuthService {
     const tokenPayload: TokenPayload = {
       name: user.name,
       email: user.email,
-      userType: user.userType,
+      userType: user.type,
       id: user.id,
     };
 
@@ -40,13 +40,14 @@ export class DefaultAuthService implements AuthService {
 
   public async verify(dto: LoginUserDto): Promise<UserEntity> {
     const user = await this.userService.findByEmail(dto.email);
+
     if(! user) {
       this.logger.warn(`User with email ${dto.email} not found`);
       throw new UserNotFoundException();
     }
 
-    if(! user.verifyPassword(dto.password, this.config.get('SALT'))) {
-      this.logger.warn(`Incorrect password for user ${dto.email}`);
+    if (! user.verifyPassword(dto.password, this.config.get('SALT'))) {
+      this.logger.warn(`Incorrect password for ${dto.email}`);
       throw new UserPasswordIncorrectException();
     }
 

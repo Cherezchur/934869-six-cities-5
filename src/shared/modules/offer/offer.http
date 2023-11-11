@@ -11,19 +11,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJya
 Content-Type: application/json
 
 {
-  "title": "Гараж Рика 3",
+  "title": "Гараж Рика 4",
   "description": "Научные лаборатории, приключения. В самом доме приживает семья. Тихие люди...",
   "createdDate": "2023-09-23T16:17:26.406Z",
   "city": "Paris",
   "images": [
-    "e:\flat design onix",
     "loft-hell-2.jpg",
     "loft-hell-3.jpg"
   ],
   "isPremium": false,
-  "rating": 0,
   "housingType": "apartment",
-  "rooms": 5,
+  "rooms": 3,
   "guestsNumber": 10,
   "price": 123,
   "comfort": [
@@ -38,8 +36,8 @@ Content-Type: application/json
 ###
 
 ## Получить объявление по идентификатору
-GET http://localhost:5000/offers/6548cb77acdbdc41ed4a1e59 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5MjY2MTk2LCJleHAiOjE2OTk0Mzg5OTZ9.MBhKjgGwxJTT4f-rQg4niLWNRCuj3ONPepjHrQZxjjQ
+GET http://localhost:5000/offers/654f97b4e2c2d347b45df389 HTTP/1.1
+# Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5MjY2MTk2LCJleHAiOjE2OTk0Mzg5OTZ9.MBhKjgGwxJTT4f-rQg4niLWNRCuj3ONPepjHrQZxjjQ
 
 ###
 
