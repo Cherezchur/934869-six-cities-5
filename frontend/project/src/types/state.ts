@@ -1,8 +1,6 @@
-import store from '../store';
-
-import type { Offer, Comment, City, SortName, User } from './types';
 import { AuthorizationStatus, SubmitStatus } from '../const';
-
+import store from '../store';
+import type { Offer, City, SortName, User, Comments } from './types';
 
 export type SiteData = {
     offers: Offer[];
@@ -12,7 +10,7 @@ export type SiteData = {
     favoriteOffers: Offer[];
     isFavoriteOffersLoading: boolean;
     premiumOffers: Offer[];
-    comments: Comment[];
+    comments: Comments;
     commentStatus: SubmitStatus;
 };
 

@@ -3,6 +3,7 @@ import type { History } from 'history';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import CommentDto from '../utils/dto/comment.dto';
 import FullOfferDto from '../utils/dto/full-offer.dto';
 import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
@@ -106,11 +107,11 @@ export const fetchPremiumOffers = createAsyncThunk<Offer[], string, { extra: Ext
     return data;
   });
 
-export const fetchComments = createAsyncThunk<Comment[], Offer['id'], { extra: Extra }>(
+export const fetchComments = createAsyncThunk<CommentDto[], Offer['id'], { extra: Extra }>(
   Action.FETCH_COMMENTS,
   async (id, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Comment[]>(`${ApiRoute.Offers}/${id}${ApiRoute.Comments}`);
+    const { data } = await api.get<CommentDto[]>(`${ApiRoute.Offers}/${id}${ApiRoute.Comments}`);
 
     return data;
   });
@@ -182,7 +183,7 @@ export const postComment = createAsyncThunk<Comment, CommentAuth, { extra: Extra
   Action.POST_COMMENT,
   async ({ id, comment, rating }, { extra }) => {
     const { api } = extra;
-    const { data } = await api.post<Comment>(`${ApiRoute.Offers}/${id}${ApiRoute.Comments}`, { comment, rating });
+    const { data } = await api.post<Comment>(`${ApiRoute.Comments}`, { offerId: id, text: comment, rating });
 
     return data;
   });

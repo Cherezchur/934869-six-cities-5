@@ -1,4 +1,5 @@
-import { Offers, Offer } from '../../types/types';
+import { Offers, Offer, Comments } from '../../types/types';
+import CommentDto from '../dto/comment.dto';
 import FullOfferDto from '../dto/full-offer.dto';
 
 const DEFAULT_CITY_LOCATION = {
@@ -76,3 +77,19 @@ export const adaptOfferToClient =
       images: offer.images,
       maxAdults: offer.guestsNumber,
     });
+
+export const adaptCommentsToClient =
+  (comments: CommentDto[]): Comments =>
+    comments
+      .map((comment: CommentDto) => ({
+        id: comment.id,
+        comment: comment.text,
+        date: comment.createdDate,
+        rating: comment.rating,
+        user: {
+          name: comment.user.name,
+          avatarUrl: comment.user.avatarPath,
+          type: comment.user.type,
+          email: comment.user.email
+        }
+      }));

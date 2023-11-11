@@ -7,11 +7,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJya
 
 ## Добавить новое предложение
 POST http://localhost:5000/offers HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5NzA4NTY2LCJleHAiOjE2OTk4ODEzNjZ9.62mouYYlT4OQBIstA_yH1jgJrzcAhEZmvfQbjw5jRCU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmlja0lJSSIsImVtYWlsIjoicmlja2lAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0ZmIwNjhlMDNhZGRlYzJhMTkyNGY3IiwiaWF0IjoxNjk5NzI5NzAyLCJleHAiOjE2OTk5MDI1MDJ9.kUL3sZP5QFd8g_B418TRvArzr8VZbrqmYXhtz9f1wTk
 Content-Type: application/json
 
 {
-  "title": "Гараж Рика 4",
+  "title": "Гараж Рика",
   "description": "Научные лаборатории, приключения. В самом доме приживает семья. Тихие люди...",
   "createdDate": "2023-09-23T16:17:26.406Z",
   "city": "Paris",
@@ -19,7 +19,7 @@ Content-Type: application/json
     "loft-hell-2.jpg",
     "loft-hell-3.jpg"
   ],
-  "isPremium": false,
+  "isPremium": true,
   "housingType": "apartment",
   "rooms": 3,
   "guestsNumber": 10,

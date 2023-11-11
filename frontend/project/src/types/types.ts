@@ -29,6 +29,8 @@ export type Comment = {
   user: User;
 };
 
+export type Comments = Comment[]
+
 export type Offer = {
   id: string;
   price: number;

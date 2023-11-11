@@ -33,24 +33,7 @@ export class DefaultUserService implements UserService {
   }
 
   public async findByUserId(userId: string): Promise<DocumentType<UserEntity> | null> {
-    const findOperation = {
-      $match: {
-        '_id': {
-          $eq: userId
-        }
-      }
-    };
-
-    const pipeLine: PipelineStage[] = [
-      findOperation,
-      AGREGATE_USERS_OPERATIONS.ADD_USER_ID
-    ];
-
-    const [ user ] = await this.userModel
-      .aggregate(pipeLine)
-      .exec();
-
-    return user;
+    return this.userModel.findOne({userId});
   }
 
   public async findByEmailWithId(email: string): Promise<DocumentType<UserEntity> | null> {

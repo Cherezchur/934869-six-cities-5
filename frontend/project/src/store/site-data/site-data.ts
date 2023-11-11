@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { adaptOffersToClient, adaptOfferToClient } from '../../utils/adapters/adaptersToClient';
+import { adaptCommentsToClient, adaptOffersToClient, adaptOfferToClient } from '../../utils/adapters/adaptersToClient';
 import type { SiteData } from '../../types/state';
 import { StoreSlice, SubmitStatus } from '../../const';
 import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postFavorite, deleteFavorite, fetchFavoriteOffers, postOffer, editOffer } from '../action';
@@ -39,7 +39,6 @@ export const siteData = createSlice({
       })
       .addCase(fetchFavoriteOffers.fulfilled, (state, action) => {
         state.favoriteOffers = adaptOffersToClient(action.payload);
-        console.log('favourites', state.offer);
         state.isFavoriteOffersLoading = false;
       })
       .addCase(fetchFavoriteOffers.rejected, (state) => {
@@ -50,7 +49,6 @@ export const siteData = createSlice({
       })
       .addCase(fetchOffer.fulfilled, (state, action) => {
         state.offer = adaptOfferToClient(action.payload);
-        console.log('offer', state.offer);
         state.isOfferLoading = false;
       })
       .addCase(fetchOffer.rejected, (state) => {
@@ -69,7 +67,7 @@ export const siteData = createSlice({
         state.premiumOffers = action.payload;
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
-        state.comments = action.payload;
+        state.comments = adaptCommentsToClient(action.payload);
       })
       .addCase(postComment.pending, (state) => {
         state.commentStatus = SubmitStatus.Pending;

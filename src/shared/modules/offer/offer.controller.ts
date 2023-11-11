@@ -121,13 +121,15 @@ export class OfferController extends BaseController {
   }
 
   public async index(body: Request, res: Response): Promise<void> {
-    let id = '';
-    if(body.tokenPayload) {
-      id = body.tokenPayload.id;
-    }
-    const offers = await this.offerService.find(DEFAULT_OFFER_COUNT, id);
+    let userId = '';
 
-    console.log('offers with server', offers);
+    if(body.tokenPayload) {
+      userId = body.tokenPayload.id;
+    }
+
+    console.log('id', userId);
+
+    const offers = await this.offerService.find(DEFAULT_OFFER_COUNT, userId);
 
     this.ok(res, fillDTO(FullOfferRdo, offers));
   }
@@ -140,6 +142,7 @@ export class OfferController extends BaseController {
       ...body,
       previewImage: DEFAULT_PREVIEW_IMAGE
     };
+    console.log('create offer tokenPayload.id', tokenPayload.id);
     const result = await this.offerService.create({ ...bodyWithDefaultValues, userId: tokenPayload.id });
     const offer = await this.offerService.findById(result.id);
     console.log('OFFER', offer);
