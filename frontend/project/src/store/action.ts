@@ -3,6 +3,7 @@ import type { History } from 'history';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import FullOfferDto from '../utils/dto/full-offer.dto';
 import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { Token } from '../utils';
@@ -30,11 +31,11 @@ export const Action = {
   REGISTER_USER: 'user/register',
 };
 
-export const fetchOffers = createAsyncThunk<Offer[], undefined, { extra: Extra }>(
+export const fetchOffers = createAsyncThunk<FullOfferDto[], undefined, { extra: Extra }>(
   Action.FETCH_OFFERS,
   async (_, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Offer[]>(ApiRoute.Offers);
+    const { data } = await api.get<FullOfferDto[]>(ApiRoute.Offers);
 
     return data;
   });

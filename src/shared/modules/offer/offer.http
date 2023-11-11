@@ -1,26 +1,26 @@
 # Предложения
 ## Получить список предложений
 GET http://localhost:5000/offers HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5Mjk2ODk2LCJleHAiOjE2OTk0Njk2OTZ9.738IDlUAWkpnP17IfY709DwbJ47LVVvZasSYcpRACko
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5NzA4NTY2LCJleHAiOjE2OTk4ODEzNjZ9.62mouYYlT4OQBIstA_yH1jgJrzcAhEZmvfQbjw5jRCU
 
 ###
 
 ## Добавить новое предложение
 POST http://localhost:5000/offers HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5MjY2MTk2LCJleHAiOjE2OTk0Mzg5OTZ9.MBhKjgGwxJTT4f-rQg4niLWNRCuj3ONPepjHrQZxjjQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiUmljayBTIiwiZW1haWwiOiJyaWNrLXNhbmNoZXNAbWFpbC5uZXQiLCJ1c2VyVHlwZSI6IlBybyIsImlkIjoiNjU0OGI5ZThkYmMwYjJmZTg2MjI5Nzg4IiwiaWF0IjoxNjk5NzA4NTY2LCJleHAiOjE2OTk4ODEzNjZ9.62mouYYlT4OQBIstA_yH1jgJrzcAhEZmvfQbjw5jRCU
 Content-Type: application/json
 
 {
-  "title": "Гараж Рика",
+  "title": "Гараж Рика 3",
   "description": "Научные лаборатории, приключения. В самом доме приживает семья. Тихие люди...",
   "createdDate": "2023-09-23T16:17:26.406Z",
-  "city": "Brussels",
+  "city": "Paris",
   "images": [
     "e:\flat design onix",
     "loft-hell-2.jpg",
     "loft-hell-3.jpg"
   ],
-  "isPremium": true,
+  "isPremium": false,
   "rating": 0,
   "housingType": "apartment",
   "rooms": 5,
@@ -31,7 +31,7 @@ Content-Type: application/json
     "Laptop friendly workspace",
     "Fridge"
   ],
-  "coordinates": ["48.85661", "2.351499"]
+  "coordinates": [48.85661, 2.351499]
 }
 
 

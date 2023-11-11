@@ -60,7 +60,7 @@ export class DefaultOfferService implements OfferService {
       AGREGATE_OPERATIONS.SORT_DOWN,
       AGREGATE_OPERATIONS.COMMENTS_LOOKUP,
       AGREGATE_OPERATIONS.ADD_COMMENTS_INFO_FIELDS,
-      AGREGATE_OPERATIONS.DELETE_COMMENTS_FIELD
+      AGREGATE_OPERATIONS.DELETE_COMMENTS_FIELD,
     ];
 
     return this.offerModel.aggregate(pipeLine).exec();

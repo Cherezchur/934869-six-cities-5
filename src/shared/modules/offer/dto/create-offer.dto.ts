@@ -25,14 +25,14 @@ export class CreateOfferDto {
   @IsBoolean({ message: 'is not a boolean value' })
   public isPremium: boolean;
 
-  @IsBoolean({ message: 'is not a boolean value' })
-  public isFavourites: boolean;
+  // @IsBoolean({ message: 'is not a boolean value' })
+  // public isFavourites: boolean;
 
-  @IsInt({ message: 'rating must be an integer' })
-  public rating: number;
+  // @IsInt({ message: 'rating must be an integer' })
+  // public rating: number;
 
-  @IsInt({ message: 'rating must be an integer' })
-  public commentsCount: number;
+  // @IsInt({ message: 'rating must be an integer' })
+  // public commentsCount: number;
 
   @IsEnum(HousingType, { message: 'type must be housing type' })
   public housingType: HousingType;
@@ -61,5 +61,5 @@ export class CreateOfferDto {
   @IsArray({ message: 'Field comfort must be an array' })
   @ArrayMinSize(COORDINATES_LENGHT, { message: `the length of the array must be at least ${COORDINATES_LENGHT}` })
   @ArrayMaxSize(COORDINATES_LENGHT, { message: `the length of the array should be no more than ${COORDINATES_LENGHT}` })
-  public coordinates: string[];
+  public coordinates: number[];
 }

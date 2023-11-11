@@ -1,16 +1,15 @@
-import type { SortName } from '../../types/types';
-
 import { useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getIsOffersLoading, selectOffers } from '../../store/site-data/selectors';
+import { getCity, getSorting } from '../../store/site-process/selectors';
 import { setSorting } from '../../store/site-process/site-process';
+import type { SortName } from '../../types/types';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import CardListEmpty from '../card-list-empty/card-list-empty';
 import Card from '../card/card';
 import Map from '../map/map';
 import SortingList from '../sorting-list/sorting-list';
 import Spinner from '../spinner/spinner';
-import { getCity, getSorting } from '../../store/site-process/selectors';
-import { getIsOffersLoading, selectOffers } from '../../store/site-data/selectors';
-import CardListEmpty from '../card-list-empty/card-list-empty';
 
 const CardList = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -37,6 +36,8 @@ const CardList = (): JSX.Element => {
   if (isOffersLoading) {
     return <Spinner />;
   }
+
+  console.log('offers wuth main page', offers);
 
   return (
     <div className={`cities__places-container container${isEmpty ? ' cities__places-container page__main--index-empty' : ''}`}>

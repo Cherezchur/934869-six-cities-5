@@ -4,6 +4,9 @@ import { HousingType, Cities, Comfort } from '../../../types/index.js';
 import { UserRdo } from '../../user/index.js';
 
 export class FullOfferRdo {
+  @Expose({ name: '_id'})
+  public id: string;
+
   @Expose()
   public title: string;
 
@@ -51,7 +54,7 @@ export class FullOfferRdo {
   public user: UserRdo;
 
   @Expose()
-  public coordinates: string[];
+  public coordinates: number[];
 
   @Expose()
   public price: number;

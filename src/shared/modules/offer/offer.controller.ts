@@ -127,7 +127,10 @@ export class OfferController extends BaseController {
       id = body.tokenPayload.id;
     }
     const offers = await this.offerService.find(DEFAULT_OFFER_COUNT, id);
-    this.ok(res, fillDTO(OfferRdo, offers));
+
+    console.log('offers with server', offers);
+
+    this.ok(res, fillDTO(FullOfferRdo, offers));
   }
 
   public async create(

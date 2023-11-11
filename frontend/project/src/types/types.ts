@@ -48,6 +48,8 @@ export type Offer = {
   maxAdults: number;
 };
 
+export type Offers = Offer[]
+
 export type NewOffer = {
   title: string;
   description: string;

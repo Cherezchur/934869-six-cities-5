@@ -1,19 +1,20 @@
 import { Expose } from 'class-transformer';
 
-import { HousingType, Cities } from '../../../types/index.js';
+import { HousingType, Cities, Comfort } from '../../../types/index.js';
 
 export class OfferRdo {
+
+  @Expose()
+  public _id: string;
+
+  @Expose()
+  public price: number;
+
+  @Expose()
+  public rating: number;
+
   @Expose()
   public title: string;
-
-  @Expose()
-  public createdDate: Date;
-
-  @Expose()
-  public city: Cities;
-
-  @Expose()
-  public previewImage: string;
 
   @Expose()
   public isPremium: boolean;
@@ -22,14 +23,26 @@ export class OfferRdo {
   public isFavourites: boolean;
 
   @Expose()
-  public commentsCount: number;
+  public city: Cities;
 
   @Expose()
-  public rating: number;
+  public coordinates: number[];
+
+  @Expose()
+  public previewImage: string;
 
   @Expose()
   public housingType: HousingType;
 
   @Expose()
-  public price: number;
+  public createdDate: Date;
+
+  @Expose()
+  public commentsCount: number;
+
+  @Expose()
+  public rooms: number;
+
+  @Expose()
+  public comfort: Comfort;
 }

@@ -85,5 +85,5 @@ export class UpdateOfferDto {
   @IsArray({ message: 'Field comfort must be an array' })
   @ArrayMinSize(COORDINATES_LENGHT, { message: `the length of the array must be at least ${COORDINATES_LENGHT}` })
   @ArrayMaxSize(COORDINATES_LENGHT, { message: `the length of the array should be no more than ${COORDINATES_LENGHT}` })
-  public coordinates?: object;
+  public coordinates?: number[];
 }

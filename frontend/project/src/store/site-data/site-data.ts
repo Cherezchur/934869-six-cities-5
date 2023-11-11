@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { adaptToClient } from '../../utils/adapters/adaptersToClient';
 import type { SiteData } from '../../types/state';
 import { StoreSlice, SubmitStatus } from '../../const';
 import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postFavorite, deleteFavorite, fetchFavoriteOffers, postOffer, editOffer } from '../action';
@@ -26,7 +27,9 @@ export const siteData = createSlice({
         state.isOffersLoading = true;
       })
       .addCase(fetchOffers.fulfilled, (state, action) => {
-        state.offers = action.payload;
+        state.offers = adaptToClient(action.payload);
+        console.log('fetchOffers.fulfilled', state.offers);
+
         state.isOffersLoading = false;
       })
       .addCase(fetchOffers.rejected, (state) => {
