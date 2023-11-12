@@ -4,7 +4,6 @@ import type { History } from 'history';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import CommentDto from '../utils/dto/comment/comment.dto';
-// import CreateOfferDto from '../utils/dto/offer/create-offer.dto';
 import FullOfferDto from '../utils/dto/offer/full-offer.dto';
 import { adaptCreateOfferToServer } from '../utils/adapters/adaptersToServer';
 import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';

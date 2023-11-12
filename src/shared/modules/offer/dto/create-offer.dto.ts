@@ -10,9 +10,6 @@ export class CreateOfferDto {
   @Length(DESCRIPTION.MIN, DESCRIPTION.MAX, { message: `min is ${DESCRIPTION.MIN}, max is ${DESCRIPTION.MAX} `})
   public description: string;
 
-  // @IsDateString({}, { message: 'postDate must be a valid ISO date'})
-  // public createdDate: Date;
-
   @IsEnum(Cities, { message: 'type must be Cities' })
   public city: Cities;
 
@@ -24,15 +21,6 @@ export class CreateOfferDto {
 
   @IsBoolean({ message: 'is not a boolean value' })
   public isPremium: boolean;
-
-  // @IsBoolean({ message: 'is not a boolean value' })
-  // public isFavourites: boolean;
-
-  // @IsInt({ message: 'rating must be an integer' })
-  // public rating: number;
-
-  // @IsInt({ message: 'rating must be an integer' })
-  // public commentsCount: number;
 
   @IsEnum(HousingType, { message: 'type must be housing type' })
   public housingType: HousingType;

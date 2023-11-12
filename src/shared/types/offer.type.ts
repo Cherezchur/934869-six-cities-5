@@ -17,5 +17,5 @@ export type Offer = {
   comfort: Comfort[];
   user: User;
   comments: number;
-  coordinates: string[];
+  coordinates: number[];
 }

@@ -33,7 +33,6 @@ export class UserController extends BaseController {
     @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.Config) private readonly configService: Config<RestSchema>,
     @inject(Component.AuthService) private readonly authService: AuthService,
-    // @inject(Component.OfferService) private readonly offerService: OfferService,
   ) {
     super(logger);
     this.logger.info('Register routes for UserController...');
@@ -95,9 +94,7 @@ export class UserController extends BaseController {
     };
 
     const result = await this.userService.create(createUserBody, this.configService.get('SALT'));
-    console.log('result', result);
     const user = await this.userService.findByEmailWithId(result.email);
-    console.log('user', user);
     this.created(res, fillDTO(UserRdo, user));
   }
 

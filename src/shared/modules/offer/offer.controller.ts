@@ -140,11 +140,8 @@ export class OfferController extends BaseController {
       ...body,
       previewImage: DEFAULT_PREVIEW_IMAGE
     };
-    console.log('create offer tokenPayload.id', tokenPayload.id);
     const result = await this.offerService.create({ ...bodyWithDefaultValues, userId: tokenPayload.id });
     const offer = await this.offerService.findById(result.id);
-    console.log('OFFER', offer);
-    console.log('RDO', fillDTO(FullOfferRdo, offer));
     this.created(res, fillDTO(FullOfferRdo, offer));
   }
 

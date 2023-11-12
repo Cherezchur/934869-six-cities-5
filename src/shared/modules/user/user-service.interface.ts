@@ -1,6 +1,5 @@
 import { DocumentType } from '@typegoose/typegoose';
 
-// import { UpdateUserDto } from './dto/update-user.dto.js';
 import { CreateUserDto, UpdateUserDto } from './index.js';
 import { UserEntity } from './user.entity.js';
 
