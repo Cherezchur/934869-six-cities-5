@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { adaptCommentsToClient, adaptOffersToClient, adaptOfferToClient } from '../../utils/adapters/adaptersToClient';
+// import { adaptCreateOfferToServer } from '../../utils/adapters/adaptersToServer';
 import type { SiteData } from '../../types/state';
 import { StoreSlice, SubmitStatus } from '../../const';
 import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postFavorite, deleteFavorite, fetchFavoriteOffers, postOffer, editOffer } from '../action';
@@ -55,7 +56,7 @@ export const siteData = createSlice({
         state.isOfferLoading = false;
       })
       .addCase(postOffer.fulfilled, (state, action) => {
-        state.offers.push(action.payload);
+        state.offers.push(adaptOfferToClient(action.payload));
       })
       .addCase(editOffer.fulfilled, (state, action) => {
         const updatedOffer = action.payload;

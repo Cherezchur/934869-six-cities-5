@@ -24,8 +24,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({trim: true, required: true})
   public description: string;
 
-  @prop({required: true})
-  public createdDate!: Date;
+  // @prop({required: true})
+  // public createdDate!: Date;
 
   @prop({
     ref: String,

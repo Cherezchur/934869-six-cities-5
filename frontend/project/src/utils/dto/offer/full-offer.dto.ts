@@ -1,5 +1,5 @@
-import { Type } from '../../types/types';
-import { UserType } from '../../const';
+import { Type } from '../../../types/types';
+import { UserType } from '../../../const';
 
 export default class FullOfferDto {
   public id!: string;

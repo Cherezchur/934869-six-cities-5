@@ -1,4 +1,4 @@
-import { UserType } from '../../const';
+import { UserType } from '../../../const';
 
 export default class CommentDto {
   public id!: string;

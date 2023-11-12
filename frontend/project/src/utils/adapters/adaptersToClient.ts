@@ -1,6 +1,6 @@
 import { Offers, Offer, Comments } from '../../types/types';
-import CommentDto from '../dto/comment.dto';
-import FullOfferDto from '../dto/full-offer.dto';
+import CommentDto from '../dto/comment/comment.dto';
+import FullOfferDto from '../dto/offer/full-offer.dto';
 
 const DEFAULT_CITY_LOCATION = {
   LAT: 55.1,

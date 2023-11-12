@@ -3,8 +3,10 @@ import type { History } from 'history';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import CommentDto from '../utils/dto/comment.dto';
-import FullOfferDto from '../utils/dto/full-offer.dto';
+import CommentDto from '../utils/dto/comment/comment.dto';
+// import CreateOfferDto from '../utils/dto/offer/create-offer.dto';
+import FullOfferDto from '../utils/dto/offer/full-offer.dto';
+import { adaptCreateOfferToServer } from '../utils/adapters/adaptersToServer';
 import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { Token } from '../utils';
@@ -70,11 +72,11 @@ export const fetchOffer = createAsyncThunk<FullOfferDto, Offer['id'], { extra: E
     }
   });
 
-export const postOffer = createAsyncThunk<Offer, NewOffer, { extra: Extra }>(
+export const postOffer = createAsyncThunk<FullOfferDto, NewOffer, { extra: Extra }>(
   Action.POST_OFFER,
   async (newOffer, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.post<Offer>(ApiRoute.Offers, newOffer);
+    const { data } = await api.post<FullOfferDto>(ApiRoute.Offers, adaptCreateOfferToServer(newOffer));
     history.push(`${AppRoute.Property}/${data.id}`);
 
     return data;

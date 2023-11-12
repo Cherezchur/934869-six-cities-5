@@ -4,8 +4,6 @@ import { formatDate, getStarsWidth } from '../../utils';
 const Review = ({ comment, date, rating, user }: Comment) => {
   const { name, avatarUrl } = user;
 
-  console.log('Review', comment, date, rating, user);
-
   return (
     <li className="reviews__item">
       <div className="reviews__user user">

@@ -1,4 +1,4 @@
-import { Length, IsArray, IsDateString, IsEnum, IsInt, Max, MaxLength, Min, ArrayMinSize, ArrayMaxSize, IsBoolean } from 'class-validator';
+import { Length, IsArray, IsEnum, IsInt, Max, MaxLength, Min, ArrayMinSize, ArrayMaxSize, IsBoolean } from 'class-validator';
 
 import { HousingType, Comfort, Cities } from '../../../types/index.js';
 import { TITLE, DESCRIPTION, ROOMS, GUESTS, PRICE, COORDINATES_LENGHT } from '../const/validate-offer.const.js';
@@ -10,8 +10,8 @@ export class CreateOfferDto {
   @Length(DESCRIPTION.MIN, DESCRIPTION.MAX, { message: `min is ${DESCRIPTION.MIN}, max is ${DESCRIPTION.MAX} `})
   public description: string;
 
-  @IsDateString({}, { message: 'postDate must be a valid ISO date'})
-  public createdDate: Date;
+  // @IsDateString({}, { message: 'postDate must be a valid ISO date'})
+  // public createdDate: Date;
 
   @IsEnum(Cities, { message: 'type must be Cities' })
   public city: Cities;

@@ -1,11 +1,32 @@
-import { UserRegister } from '../../types/types';
-import CreateUserDto from '../dto/create-user.dto';
+import { NewOffer } from '../../types/types';
+import CreateOfferDto from '../dto/offer/create-offer.dto';
 
-export const adaptRegisterToServer =
-  (user: UserRegister): CreateUserDto => ({
-    name: user.name,
-    email: user.email,
-    avatar: user.avatar,
-    password: user.password,
-    type: user.type
+export const adaptCreateOfferToServer =
+  (offer: NewOffer): CreateOfferDto => ({
+    title: offer.title,
+
+    description: offer.description,
+
+    city: offer.city.name,
+
+    previewImage: offer.previewImage,
+
+    isPremium: offer.isPremium,
+
+    housingType: offer.type,
+
+    rooms: offer.bedrooms,
+
+    guestsNumber: offer.maxAdults,
+
+    price: offer.price,
+
+    comfort: offer.goods,
+
+    coordinates: [
+      offer.location.latitude,
+      offer.location.longitude
+    ],
+
+    images: offer.images,
   });

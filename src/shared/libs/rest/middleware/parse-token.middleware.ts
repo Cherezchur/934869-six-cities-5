@@ -31,8 +31,6 @@ export class ParseTokenMiddleware implements Middleware {
     try {
       const { payload } = await jwtVerify(token, createSecretKey(this.jwtSecret, 'utf-8'));
 
-      console.log('payload', payload);
-
       if (isTokenPayload(payload)) {
         req.tokenPayload = { ...payload };
         return next();
